@@ -1,0 +1,21 @@
+{
+  "name": "tellmi",
+  "version": "0.1.0",
+  "description": "A tool for asking questions.",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tellmimore/tellmi.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tellmimore/tellmi/issues"
+  },
+  "homepage": "https://github.com/tellmimore/tellmi#readme",
+  "workspaces": [
+    "server",
+    "utils",
+    "docs"
+  ]
+}

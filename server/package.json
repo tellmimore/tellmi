@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "description": "Server for Tellmi",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "nodemon index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "utils": "file:../utils",
+    "fastify": "^4.26.2",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2"
+  }
+}
