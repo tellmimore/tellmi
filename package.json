@@ -18,7 +18,8 @@
   "workspaces": [
     "server",
     "utils",
-    "docs"
+    "docs",
+    "mobile"
   ],
   "private": true
 }
