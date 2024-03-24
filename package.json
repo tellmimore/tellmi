@@ -2,7 +2,9 @@
   "name": "tellmi",
   "version": "0.1.0",
   "description": "A tool for asking questions.",
-  "scripts": {},
+  "scripts": {
+    "build:docs": "cd docs && npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tellmimore/tellmi.git"
@@ -17,5 +19,6 @@
     "server",
     "utils",
     "docs"
-  ]
+  ],
+  "private": true
 }
