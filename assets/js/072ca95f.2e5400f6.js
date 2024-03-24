@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[938],{9977:s=>{s.exports=JSON.parse('[{"label":"start","permalink":"/tellmi/blog/tags/start","count":1}]')}}]);

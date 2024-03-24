@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[565],{8638:e=>{e.exports=JSON.parse('{"title":"The Tellmi Project","description":"The Tellmi project.","slug":"/category/the-tellmi-project","permalink":"/tellmi/docs/category/the-tellmi-project","navigation":{"next":{"title":"The Idea behind Tellmi","permalink":"/tellmi/docs/project/idea"}}}')}}]);

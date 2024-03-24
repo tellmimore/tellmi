@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[472],{5513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Setting up the repository | First decisions","permalink":"/tellmi/blog/first-decisions","unlisted":false}]}')}}]);
