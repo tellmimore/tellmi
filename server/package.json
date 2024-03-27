@@ -9,9 +9,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@prisma/client": "^5.11.0",
     "fastify": "^4.26.2",
     "nodemon": "^3.1.0",
-    "ts-node": "^10.9.2",
     "utils": "file:../utils"
   },
   "devDependencies": {

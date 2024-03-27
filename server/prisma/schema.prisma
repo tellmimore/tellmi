@@ -9,4 +9,27 @@ datasource db {
 
 model studies {
   id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  settings Json?
+  items Json[]?
+  variants Json[]?
+}
+
+model results {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  participant_id String
+  day      Int
+  survey   Int
+  time     BigInt
+  item     String
+  date     DateTime
+  response String
+}
+
+model participants {
+  id                      String    @id @default(auto()) @map("_id") @db.ObjectId
+  participant_id          String
+  standalone_participant_id String
+  study                   String
+  variant                 String
 }
