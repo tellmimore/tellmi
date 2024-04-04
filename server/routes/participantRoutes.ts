@@ -1,11 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { PrismaClient} from '@prisma/client';
 
-interface ParticipantData {
-    participant_id: string;
-    variant: string;
-}
-
 // Helper function to generate a random alphanumeric string, add to utils?
 function generateRandomId(length: number): string {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -19,7 +14,12 @@ function generateRandomId(length: number): string {
 export default async function participantRoutes(fastify: FastifyInstance, prisma: PrismaClient ) {
     // Create a new participant by studyname
     fastify.post('/participants/:studyName', async (request, reply) => {
-        const participantData = request.body as ParticipantData; 
+        const participantData = {} as {
+            participant_id: string;
+            standalone_participant_id: string;
+            study: string;
+            variant: string;
+          };
         const { studyName } = request.params as {studyName: string};
 
         // Generate a random standalone participant ID
@@ -31,7 +31,7 @@ export default async function participantRoutes(fastify: FastifyInstance, prisma
 
         try {
             // Check if the participant ID already exists
-            const existingParticipant = await prisma.participants.findUnique({
+            const existingParticipant = await prisma.participants.findFirst({
                 where: {
                     participant_id: participantId
                 }
@@ -43,7 +43,7 @@ export default async function participantRoutes(fastify: FastifyInstance, prisma
             }
 
             // Check if the study exists
-            const existingStudy = await prisma.studies.findUnique({
+            const existingStudy = await prisma.studies.findFirst({
                 where: {
                     name: studyName
                 }
@@ -54,8 +54,17 @@ export default async function participantRoutes(fastify: FastifyInstance, prisma
                 return;
             }
 
+            participantData.standalone_participant_id = standaloneParticipantId
+            participantData.study = studyName
+            participantData.variant = "control"
+
             const newParticipant = await prisma.participants.create({
-                data: participantData
+                data: {
+                  participant_id: participantData.participant_id,
+                  standalone_participant_id: participantData.standalone_participant_id,
+                  study: participantData.study,
+                  variant: participantData.variant,
+                },
             });
             return newParticipant;
         } catch (error) {

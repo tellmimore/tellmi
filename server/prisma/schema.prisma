@@ -8,11 +8,11 @@ datasource db {
 }
 
 model studies {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id String    @id @default(auto()) @map("_id") @db.ObjectId
   name String
   settings Json?
-  items Json[]?
-  variants Json[]?
+  items Json[]
+  variants Json[]
 }
 
 model results {
