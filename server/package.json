@@ -15,6 +15,7 @@
     "utils": "file:../utils"
   },
   "devDependencies": {
+    "@types/node": "^20.12.5",
     "prisma": "^5.11.0"
   }
 }
