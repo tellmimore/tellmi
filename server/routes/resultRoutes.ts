@@ -11,7 +11,12 @@ export default async function resultRoutes(fastify: FastifyInstance, prisma: Pri
                     participant_id: participant_id
                 }
             });
-            return results;
+            const serializedResults = results.map(result => ({
+                ...result,
+                time: result.time.toString(),
+            }));
+    
+            return serializedResults;
         } catch (error) {
             console.error('Error retrieving results by participant_id:', error);
             reply.code(500).send({ error: 'Internal Server Error' });
@@ -29,7 +34,12 @@ export default async function resultRoutes(fastify: FastifyInstance, prisma: Pri
                     }
                 }
             });
-            return results;
+            const serializedResults = results.map(result => ({
+                ...result,
+                time: result.time.toString(),
+            }));
+    
+            return serializedResults;
         } catch (error) {
             console.error('Error retrieving results by study name:', error);
             reply.code(500).send({ error: 'Internal Server Error' });
@@ -38,12 +48,28 @@ export default async function resultRoutes(fastify: FastifyInstance, prisma: Pri
 
     // Create a new result
     fastify.post('/results', async (request, reply) => {
-        const resultData = request.body;
+        const resultData = request.body as {
+            participant_id: string;
+            day: number;
+            survey: number;
+            time: bigint;
+            item: string;
+            date: string;
+            response: string;
+        };
         try {
             const newResult = await prisma.results.create({
-                data: resultData
+                data: {
+                    participant_id: resultData.participant_id,
+                    day: resultData.day,
+                    survey: resultData.survey,
+                    time: resultData.time,
+                    item: resultData.item,
+                    date: new Date(resultData.date), 
+                    response: resultData.response,
+                },
             });
-            return newResult;
+            reply.code(201).send(newResult);
         } catch (error) {
             console.error('Error creating result:', error);
             reply.code(500).send({ error: 'Internal Server Error' });

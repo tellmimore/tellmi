@@ -1,3 +1,4 @@
+require('dotenv').config();
 import { add } from 'utils'
 
 import Fastify from 'fastify'
