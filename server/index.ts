@@ -23,7 +23,7 @@ fastify.register(resultRoutes, prisma);
 fastify.register(participantRoutes, prisma);
 
 // Start the Server
-fastify.listen({ port: 8080 }, function (err, address) {
+fastify.listen({ port: 8080, host: process.env.HOST ?? 'localhost' }, function (err, address) {
     if (err) {
         fastify.log.error(`🔴 Error starting server.\n${err}`)
         process.exit(1)
