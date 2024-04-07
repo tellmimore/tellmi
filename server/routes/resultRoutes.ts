@@ -1,6 +1,17 @@
 import { FastifyInstance } from 'fastify';
 import { PrismaClient} from '@prisma/client';
 
+interface Result {
+    id: string;
+    participant_id: string;
+    day: number;
+    survey: number;
+    time: bigint;
+    item: string;
+    date: Date;
+    response: string;
+}
+
 export default async function resultRoutes(fastify: FastifyInstance, prisma: PrismaClient ) {
     // Get all results by participant id
     fastify.get('/results/:participant_id', async (request, reply) => {
@@ -11,7 +22,7 @@ export default async function resultRoutes(fastify: FastifyInstance, prisma: Pri
                     participant_id: participant_id
                 }
             });
-            const serializedResults = results.map(result => ({
+            const serializedResults = results.map((result: Result) => ({
                 ...result,
                 time: result.time.toString(),
             }));
@@ -34,7 +45,7 @@ export default async function resultRoutes(fastify: FastifyInstance, prisma: Pri
                     }
                 }
             });
-            const serializedResults = results.map(result => ({
+            const serializedResults = results.map((result: Result) => ({
                 ...result,
                 time: result.time.toString(),
             }));
@@ -48,15 +59,8 @@ export default async function resultRoutes(fastify: FastifyInstance, prisma: Pri
 
     // Create a new result
     fastify.post('/results', async (request, reply) => {
-        const resultData = request.body as {
-            participant_id: string;
-            day: number;
-            survey: number;
-            time: bigint;
-            item: string;
-            date: string;
-            response: string;
-        };
+        const resultData = request.body as Result;
+        
         try {
             const newResult = await prisma.results.create({
                 data: {
