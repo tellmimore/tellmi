@@ -1,12 +1,11 @@
-require('dotenv').config();
-import { add } from 'utils'
+import 'dotenv/config';
 
 import Fastify from 'fastify'
 import { PrismaClient } from '@prisma/client';
 
-import studyRoutes from './routes/studyRoutes'
-import resultRoutes from './routes/resultRoutes';
-import participantRoutes from './routes/participantRoutes';
+import studyRoutes from './routes/studyRoutes.js'
+import resultRoutes from './routes/resultRoutes.js';
+import participantRoutes from './routes/participantRoutes.js';
 
 const fastify = Fastify({
     logger: true
@@ -15,7 +14,7 @@ const prisma = new PrismaClient();
 
 // Hello Server
 fastify.get('/', function (req, res) {
-    res.send({ hello: add(1, 2) })
+    res.send({ hello: 'world' })
 })
 
 // Register Routes
