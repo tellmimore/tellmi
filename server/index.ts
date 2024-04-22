@@ -1,6 +1,8 @@
 import 'dotenv/config';
 
 import Fastify from 'fastify'
+import cors from '@fastify/cors'
+
 import { PrismaClient } from '@prisma/client';
 
 import studyRoutes from './routes/studyRoutes.js'
@@ -10,6 +12,11 @@ import participantRoutes from './routes/participantRoutes.js';
 const fastify = Fastify({
     logger: true
 })
+
+fastify.register(cors, {
+    // options
+});
+
 const prisma = new PrismaClient();
 
 // Hello Server
