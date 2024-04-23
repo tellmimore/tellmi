@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="//unpkg.com/alpinejs" defer></script>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('file', {
+                file: {},
+                content: '',
+                object: {},
+                
+                async read() {
+                    this.content = await this.file.text();
+                    this.object = JSON.parse(this.content);
+                },
+
+                init() {
+                    Alpine.effect(() => {
+                        this.read();
+                    })
+                }
+            });
+        });
+
+        function upload() {
+            fetch('https://tellmi.onrender.com/studies', {
+                method: 'POST'
+            });
+        }
+
+        function enrol(studyName) {
+            return fetch('https://tellmi.onrender.com/participants/' + studyName, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) {
+                    return response.error;
+                }
+
+                if (response.participant_id) {
+                    return response.participant_id;
+                }
+            });
+        }
+    </script>
+    
+    <section>
+        <h1>Tellmi Mini</h1>
+        <p><span>[ only for testing and development ]</span></p>
+    </section>
+
+    <section id="enrol" x-data="{ studyName: '', text: ''}">
+        <h3>New Participant</h3>
+        <input type="text" placeholder="Study name" x-model="studyName"/>
+        <button @click="enrol(studyName).then(r => text = r)" x-text="`Add a participant to study '${studyName}'`"></button>
+        <p x-text="text"></p>
+    </section>
+
+    <section id="new-study" x-data="{ studyName: '' }">
+        <h3>New Study</h3>
+        <input type="text" x-model="studyName" placeholder="Study name"/>
+        <label for="file-upload" class="custom-file-upload">
+            <p>Choose a file: <span x-text="$store.file.file.name"></span></p>
+        </label>
+
+        <input id="file-upload" type="file" @change="$store.file.file = $el.files[0]"/>
+
+        <button>Upload</button>
+
+        <pre><p x-text="JSON.stringify($store.file.object, null, 2)"></p></pre>
+    </section>
+
+    <section id="study-info">
+
+    </section>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+        }
+
+        span {
+            background-color: lightyellow;
+        }
+
+        section {
+            width: 100%;
+            border-bottom: 1px solid lightgray;
+            padding-bottom: 1rem;
+        }
+
+        input[type="text"] {
+            width: 50%;
+            border-radius: 8px;
+            background-color: #efefef;
+            border: none;
+            font-size: large;
+            padding: 0.5rem 1rem;
+            box-sizing: border-box;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            box-sizing: border-box;
+            display: block;
+            border-radius: 8px;
+            background-color: #efefef;
+            color: gray;
+            width: 50%;
+            height: 100px;
+            margin: 1rem auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 2px solid #efefef;
+            font-size: larger;
+        }
+
+        .custom-file-upload:hover {
+            border: 2px dashed gray;
+        }
+
+
+        pre p {
+            width: 50%;
+            margin: 0 auto;
+            font-family: monospace;
+            text-align: left;
+        }
+        
+        button {
+            margin-top: 1rem;
+            font-size: large;
+            border: none;
+            width: 50%;
+            background-color: #333;
+            color: #efefef;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>
