@@ -21,5 +21,8 @@
     "docs",
     "mobile"
   ],
-  "private": true
+  "private": true,
+  "dependencies": {
+    "react-native-elements": "^3.4.3"
+  }
 }
