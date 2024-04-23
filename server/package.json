@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@prisma/client": "^5.11.0",
+    "@prisma/client": "^5.12.1",
     "dotenv": "^16.4.5",
     "fastify": "^4.26.2",
     "nodemon": "^3.1.0",
