@@ -6,15 +6,23 @@ import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 import React, { useState } from "react";
 
 export default function TabThreeScreen() {
+  // create use states for the hobbies
   const [footballChecked, setFootballChecked] = useState(false);
   const [musicChecked, setMusicChecked] = useState(false);
   const [photographyChecked, setPhotographyChecked] = useState(false);
   const [dancingChecked, setDancingChecked] = useState(false);
 
+  // TODO: Handle user input for hobbies
+  const handleContinue = () => {
+    console.log("Fußball: " + footballChecked);
+    console.log("Musik: " + musicChecked);
+    console.log("Fotografie: " + photographyChecked);
+    console.log("Tanzen: " + dancingChecked);
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        Bitte geben Sie an, welche der folgenden Hobbies sie haben:
+        Bitte geben Sie an, welche der folgenden Hobbies Sie haben:
       </Text>
 
       {/*CheckBox*/}
@@ -50,7 +58,7 @@ export default function TabThreeScreen() {
         <Text style={styles.text1}>Tanzen</Text>
       </View>
 
-      <Pressable style={styles.buttonContainer}>
+      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continue</Text>
       </Pressable>
 
@@ -111,6 +119,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 20,
   },
 
   checkboxContainer: {

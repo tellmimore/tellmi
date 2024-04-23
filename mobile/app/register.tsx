@@ -1,6 +1,6 @@
 import { Text, View } from "@/components/Themed";
-//import { register } from "@/utils/server"
-import { router } from "expo-router";
+import { register } from "@/utils/server";
+import { router, useNavigation } from "expo-router";
 import { useState } from "react";
 
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
@@ -19,13 +19,13 @@ export default function Register() {
   const handleButtonPress = async () => {
     console.log("registering");
 
-    /* register(code)
-            .then(() => {
-                router.replace('/(tabs)')
-            }).catch((error: Error) => {
-                showError(error.message)
-            })
-            */
+    register(code)
+      .then(() => {
+        router.replace("/(tabs)");
+      })
+      .catch((error: Error) => {
+        showError(error.message);
+      });
   };
 
   return (

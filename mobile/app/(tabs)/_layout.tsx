@@ -30,7 +30,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Duration of Relationship",
+          title: "Relationship",
           tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
@@ -51,19 +51,17 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: "Age of Participant",
+          title: "Age",
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="calendar" color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="three"
+        name="hobbies"
         options={{
           title: "Hobbies",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="calendar" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <TabBarIcon name="camera" color={color} />,
         }}
       />
     </Tabs>

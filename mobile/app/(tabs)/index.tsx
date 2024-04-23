@@ -23,7 +23,7 @@ export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        Wie lange sind Sie schon mit Ihrem Partner zusammen?
+        Wie lange sind Sie schon mit Ihrem / Ihrer PartnerIn zusammen?
       </Text>
 
       <Text style={styles.text1}>Jahre: </Text>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
     borderRadius: 8,
-    marginTop: 20,
+    marginTop: 5,
     width: "80%",
     textAlign: "center",
     backgroundColor: "#efefef",
@@ -104,5 +104,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 30,
   },
 });

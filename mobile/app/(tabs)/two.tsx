@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function TabTwoScreen() {
   // set state Variable for age
-  const [age] = useState("");
+  const [age, setAge] = useState("");
 
   // TODO: How to handle age variable?
   const handleContinue = () => {
@@ -22,6 +22,7 @@ export default function TabTwoScreen() {
         placeholder="Jahre"
         keyboardType="numeric"
         value={age}
+        onChangeText={(text) => setAge(text)} // Save User Age input
       />
       <Pressable style={styles.buttonContainer} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continue</Text>
@@ -84,5 +85,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 20,
   },
 });
