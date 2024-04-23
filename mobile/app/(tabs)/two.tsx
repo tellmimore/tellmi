@@ -6,6 +6,14 @@ import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 import { useState } from "react";
 
 export default function TabTwoScreen() {
+  // set state Variable for age
+  const [age] = useState("");
+
+  // TODO: How to handle age variable?
+  const handleContinue = () => {
+    console.log("Age:" + age);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bitte geben Sie Ihr Alter in Jahren an:</Text>
@@ -13,8 +21,9 @@ export default function TabTwoScreen() {
         style={styles.input}
         placeholder="Jahre"
         keyboardType="numeric"
+        value={age}
       />
-      <Pressable style={styles.buttonContainer}>
+      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continue</Text>
       </Pressable>
 

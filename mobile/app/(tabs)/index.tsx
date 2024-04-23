@@ -1,11 +1,25 @@
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-
+import { useNavigation } from "@react-navigation/native";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
-
+import React from "react";
 import { useState } from "react";
 
 export default function TabOneScreen() {
+  // set state variables for years and months of relationsship duration
+  const [years, setYears] = useState("");
+  const [months, setMonths] = useState("");
+  const navigation = useNavigation();
+
+  // TODO: How to handle the values?
+  const handleContinue = () => {
+    console.log("Years:" + years);
+    console.log("Months:" + months);
+
+    // Navigate to second Registration screen (Age) on Continue press
+    //navigation.navigate("ageInput");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -17,15 +31,19 @@ export default function TabOneScreen() {
         style={styles.input}
         placeholder="Anzahl der Jahre"
         keyboardType="numeric"
+        value={years}
+        onChangeText={(text) => setYears(text)} //save User Input as new variable for years
       />
       <Text style={styles.text1}>Monate:</Text>
       <TextInput
         style={styles.input}
         placeholder="Anzahl der Monate"
         keyboardType="numeric"
+        value={months}
+        onChangeText={(text) => setMonths(text)} //save User Input as new variable for months
       />
 
-      <Pressable style={styles.buttonContainer}>
+      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continue</Text>
       </Pressable>
 
