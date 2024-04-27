@@ -22,7 +22,7 @@ export default function RelDurScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        Wie lange sind Sie schon mit Ihrem / Ihrer PartnerIn zusammen?
+        Wie lange sind Sie schon mit Ihrem Partner zusammen?
       </Text>
 
       <Text style={styles.text1}>Jahre: </Text>
@@ -76,6 +76,12 @@ const styles = StyleSheet.create({
   text1: {
     fontSize: 20,
     marginTop: 20,
+  },
+  text2: {
+    fontSize: 14,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
   },
 
   input: {

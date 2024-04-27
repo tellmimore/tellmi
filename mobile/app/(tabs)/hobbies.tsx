@@ -74,12 +74,14 @@ export default function HobbiesInputScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    //alignItems: "center",
     justifyContent: "center",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
+    marginLeft: 20,
+    marginRight: 10,
   },
   separator: {
     marginVertical: 30,
@@ -125,6 +127,7 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 0,
+    marginTop: 10,
+    marginRight: 20,
   },
 });

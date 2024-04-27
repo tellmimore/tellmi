@@ -19,7 +19,7 @@ export default function TextInputScreen() {
       <Text style={styles.title}>
         Wenn Sie etwas anmerken möchten, können Sie dies hier tun.
       </Text>
-      <Text style={styles.text1}>
+      <Text style={styles.text2}>
         Waren Sie sich z.B. bei einem Item sehr unsicher und wenn ja, warum? Hat
         irgendetwas Ihe Antworten verfälscht, z.B. weil Sie sich mit jemandem
         darüber ausgetauscht haben?
@@ -27,7 +27,7 @@ export default function TextInputScreen() {
       <TextInput
         style={styles.textInput}
         multiline={true}
-        placeholder="Geben Sie hier Ihre Anmerkungen ein"
+        placeholder="Geben Sie hier Ihre Anmerkungen ein..."
         value={textinput}
         onChangeText={(text) => setTextinput(text)} // Save User Text input
       ></TextInput>
@@ -67,6 +67,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 10,
     width: "90%",
+  },
+  text2: {
+    fontSize: 14,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
   },
 
   input: {

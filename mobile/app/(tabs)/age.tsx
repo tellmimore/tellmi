@@ -59,6 +59,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 20,
   },
+  text2: {
+    fontSize: 14,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+  },
 
   input: {
     fontSize: 20,
