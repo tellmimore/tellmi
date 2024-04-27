@@ -1,29 +1,37 @@
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-
+import { CheckBox } from "react-native-elements";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
+import { ViewStyle, TextStyle } from "react-native";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function TabTwoScreen() {
-  // set state Variable for age
-  const [age, setAge] = useState("");
+export default function TextInputScreen() {
+  // create use states for the hobbies
+  const [textinput, setTextinput] = useState("");
 
-  // TODO: How to handle age variable?
+  // TODO: Handle user input for textinput
   const handleContinue = () => {
-    console.log("Age:" + age);
+    console.log("Text input: " + textinput);
   };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bitte geben Sie Ihr Alter in Jahren an:</Text>
+      <Text style={styles.title}>
+        Wenn Sie etwas anmerken möchten, können Sie dies hier tun.
+      </Text>
+      <Text style={styles.text1}>
+        Waren Sie sich z.B. bei einem Item sehr unsicher und wenn ja, warum? Hat
+        irgendetwas Ihe Antworten verfälscht, z.B. weil Sie sich mit jemandem
+        darüber ausgetauscht haben?
+      </Text>
       <TextInput
-        style={styles.input}
-        placeholder="Jahre"
-        keyboardType="numeric"
-        value={age}
-        onChangeText={(text) => setAge(text)} // Save User Age input
-      />
+        style={styles.textInput}
+        multiline={true}
+        placeholder="Geben Sie hier Ihre Anmerkungen ein"
+        value={textinput}
+        onChangeText={(text) => setTextinput(text)} // Save User Text input
+      ></TextInput>
+
       <Pressable style={styles.buttonContainer} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continue</Text>
       </Pressable>
@@ -57,7 +65,8 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 20,
-    marginTop: 20,
+    marginTop: 10,
+    width: "90%",
   },
 
   input: {
@@ -67,6 +76,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "80%",
     textAlign: "center",
+    backgroundColor: "#efefef",
+  },
+
+  textInput: {
+    fontSize: 20,
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 20,
+    width: "90%",
+    height: 200,
+    textAlign: "left",
+    textAlignVertical: "top",
     backgroundColor: "#efefef",
   },
 
@@ -86,5 +107,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
+  },
+
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 0,
   },
 });

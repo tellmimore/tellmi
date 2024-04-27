@@ -1,11 +1,17 @@
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
-import { useNavigation } from "@react-navigation/native";
-import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
-import React from "react";
-import { useState } from "react";
+import * as React from "react";
+import { View, Text } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-export default function RelDurScreen() {
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Home Screen</Text>
+    </View>
+  );
+}
+
+function RelDurScreen() {
   // set state variables for years and months of relationsship duration
   const [years, setYears] = useState("");
   const [months, setMonths] = useState("");
@@ -54,6 +60,21 @@ export default function RelDurScreen() {
     </View>
   );
 }
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="RelDur" component={RelDurScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {

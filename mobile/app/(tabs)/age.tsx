@@ -1,50 +1,38 @@
+import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-import { register } from "@/utils/server";
-import { router, useNavigation } from "expo-router";
-import { useState } from "react";
 
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 
-export default function Register() {
-  const [code, setCode] = useState<string>("");
+import { useState } from "react";
 
-  const showError = (error: string) => {
-    Alert.alert("Error", error);
-  };
+export default function AgeInputScreen() {
+  // set state Variable for age
+  const [age, setAge] = useState("");
 
-  const handleCodeChange = (text: string) => {
-    setCode(text);
-  };
-
-  const handleButtonPress = async () => {
-    console.log("registering");
-
-    register(code)
-      .then(() => {
-        //router.replace("/(tabs)");
-      })
-      .catch((error: Error) => {
-        showError(error.message);
-      });
+  // TODO: How to handle age variable?
+  const handleContinue = () => {
+    console.log("Age:" + age);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        Welcome to <Text style={{ fontWeight: "bold" }}>Tellmi</Text>!
-      </Text>
-
+      <Text style={styles.title}>Bitte geben Sie Ihr Alter in Jahren an:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Participation code"
-        onChangeText={handleCodeChange}
-        value={code}
+        placeholder="Jahre"
+        keyboardType="numeric"
+        value={age}
+        onChangeText={(text) => setAge(text)} // Save User Age input
       />
-
-      <Pressable style={styles.buttonContainer} onPress={handleButtonPress}>
+      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continue</Text>
       </Pressable>
-      <Text>{code}</Text>
+
+      <View
+        style={styles.separator}
+        lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"
+      />
     </View>
   );
 }
@@ -55,9 +43,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: "80%",
+  },
   text: {
     fontSize: 30,
+  },
+  text1: {
+    fontSize: 20,
+    marginTop: 20,
   },
 
   input: {
@@ -81,10 +81,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     overflow: "hidden",
   },
-
   buttonContainer: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 20,
   },
 });

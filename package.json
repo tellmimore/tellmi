@@ -23,6 +23,7 @@
   ],
   "private": true,
   "dependencies": {
-    "react-native-elements": "^3.4.3"
+    "react-native-elements": "^3.4.3",
+    "react-slider": "^2.0.6"
   }
 }

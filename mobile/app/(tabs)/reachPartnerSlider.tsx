@@ -2,60 +2,36 @@ import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { CheckBox } from "react-native-elements";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
+import { ViewStyle, TextStyle } from "react-native";
 
 import React, { useState } from "react";
 
-export default function HobbiesInputScreen() {
+export default function ReachPartnerScreen() {
   // create use states for the hobbies
-  const [footballChecked, setFootballChecked] = useState(false);
-  const [musicChecked, setMusicChecked] = useState(false);
-  const [photographyChecked, setPhotographyChecked] = useState(false);
-  const [dancingChecked, setDancingChecked] = useState(false);
+  const [slider, setSlider] = useState(50);
 
-  // TODO: Handle user input for hobbies
+  // TODO: Handle user input for textinput
   const handleContinue = () => {
-    console.log("Fußball: " + footballChecked);
-    console.log("Musik: " + musicChecked);
-    console.log("Fotografie: " + photographyChecked);
-    console.log("Tanzen: " + dancingChecked);
+    console.log("Slider value: " + slider);
   };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        Bitte geben Sie an, welche der folgenden Hobbies Sie haben:
+        Schätzen Sie: Wie schwierig oder leicht wäre es gerade Ihren Partner zu
+        erreichen?
+      </Text>
+      <Text>
+        D.h. mit Ihrem Partern in wechselseitigen Kontakt zu treten, also auch
+        eine Antwort zu bekommen? (z.B. per Telefon, SMS, Messenger)
+      </Text>
+      <Text>
+        Kaum möglich wäre es auch, wenn es mit vielen negativen Konsequenzen für
+        Sie oder Ihren Partner verbunden ist, oder sehr lange dauern würde.
       </Text>
 
-      {/*CheckBox*/}
+      {/*Slider*/}
       <View style={styles.checkboxContainer}>
-        <CheckBox
-          checked={footballChecked}
-          onPress={() => setFootballChecked(!footballChecked)}
-        />
         <Text style={styles.text1}>Fußball</Text>
-      </View>
-
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          checked={musicChecked}
-          onPress={() => setMusicChecked(!musicChecked)}
-        />
-        <Text style={styles.text1}>Musik</Text>
-      </View>
-
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          checked={photographyChecked}
-          onPress={() => setPhotographyChecked(!photographyChecked)}
-        />
-        <Text style={styles.text1}>Fotografie</Text>
-      </View>
-
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          checked={dancingChecked}
-          onPress={() => setDancingChecked(!dancingChecked)}
-        />
-        <Text style={styles.text1}>Tanzen</Text>
       </View>
 
       <Pressable style={styles.buttonContainer} onPress={handleContinue}>
@@ -91,7 +67,8 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 20,
-    marginTop: 0,
+    marginTop: 10,
+    width: "90%",
   },
 
   input: {
@@ -101,6 +78,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "80%",
     textAlign: "center",
+    backgroundColor: "#efefef",
+  },
+
+  textInput: {
+    fontSize: 20,
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 20,
+    width: "90%",
+    height: 200,
+    textAlign: "left",
+    textAlignVertical: "top",
     backgroundColor: "#efefef",
   },
 
