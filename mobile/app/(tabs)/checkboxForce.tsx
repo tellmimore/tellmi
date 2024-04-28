@@ -5,14 +5,16 @@ import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 
 import React, { useState } from "react";
 
-export default function HobbiesInputScreen() {
-  // create use states for the hobbies
+export default function CheckboxScreen() {
+  //TODO: Add force choice?
+
+  // create use states for the checkbox
   const [footballChecked, setFootballChecked] = useState(false);
   const [musicChecked, setMusicChecked] = useState(false);
   const [photographyChecked, setPhotographyChecked] = useState(false);
   const [dancingChecked, setDancingChecked] = useState(false);
 
-  // TODO: Handle user input for hobbies
+  // TODO: Handle user input for checkbox
   const handleContinue = () => {
     console.log("Fußball: " + footballChecked);
     console.log("Musik: " + musicChecked);

@@ -1,59 +1,26 @@
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-import { CheckBox } from "react-native-elements";
-import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
-import { ViewStyle, TextStyle } from "react-native";
-import Slider from "@react-native-community/slider";
+import { Pressable, StyleSheet } from "react-native";
+//import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-radio-button';
 
 import React, { useState } from "react";
 
-export default function ReachPartnerScreen() {
-  // create use states for the hobbies
-  const [slider, setSlider] = useState(50);
+export default function RadioButtonScreen() {
+  // create use states for the options
+  const [selectedOption, setSelectedOption] = useState(null);
 
-  const handleSliderChange = (value: React.SetStateAction<number>) => {
-    setSlider(value);
+  const handleSelect = (option: React.SetStateAction<null>) => {
+    setSelectedOption(option);
   };
   // TODO: Handle user input for textinput
   const handleContinue = () => {
-    console.log("Slider value: " + slider);
+    console.log("Selected Option: " + selectedOption);
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Schätzen Sie: Wie schwierig oder leicht wäre es gerade Ihren Partner zu
-        erreichen?
-      </Text>
-      <Text style={styles.text2}>
-        D.h. mit Ihrem Partern in wechselseitigen Kontakt zu treten, also auch
-        eine Antwort zu bekommen? (z.B. per Telefon, SMS, Messenger)
-      </Text>
-      <Text style={styles.text2}>
-        Kaum möglich wäre es auch, wenn es mit vielen negativen Konsequenzen für
-        Sie oder Ihren Partner verbunden ist, oder sehr lange dauern würde.
-      </Text>
+      <Text style={styles.title}>Bitte geben Sie Ihr Geschlecht an.</Text>
 
-      {/*Slider*/}
-      <Slider
-        style={styles.slider}
-        maximumValue={1}
-        minimumValue={0}
-        minimumTrackTintColor="blue"
-        maximumTrackTintColor="green"
-        //thumbTintColor="blue"
-        value={slider}
-        onValueChange={handleSliderChange}
-      ></Slider>
-      <View style={styles.textContainer}>
-        <Text style={{ textAlign: "left", color: "blue", fontWeight: "bold" }}>
-          Kaum möglich
-        </Text>
-        <Text
-          style={{ textAlign: "right", color: "green", fontWeight: "bold" }}
-        >
-          Ganz einfach
-        </Text>
-      </View>
+      {/*Radio Button*/}
+
       <Pressable style={styles.buttonContainer} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continue</Text>
       </Pressable>

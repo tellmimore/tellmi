@@ -7,16 +7,13 @@ import Slider from "@react-native-community/slider";
 
 import React, { useState } from "react";
 
-export default function ReachPartnerScreen() {
-  // create use states for the hobbies
-  const [slider, setSlider] = useState(50);
+export default function AudioStreamingScreen() {
+  // create use states for the input
+  const [value, setValue] = useState();
 
-  const handleSliderChange = (value: React.SetStateAction<number>) => {
-    setSlider(value);
-  };
-  // TODO: Handle user input for textinput
+  // TODO: Handle user input for continue button
   const handleContinue = () => {
-    console.log("Slider value: " + slider);
+    console.log("Slider value: " + value);
   };
   return (
     <View style={styles.container}>
@@ -33,27 +30,6 @@ export default function ReachPartnerScreen() {
         Sie oder Ihren Partner verbunden ist, oder sehr lange dauern würde.
       </Text>
 
-      {/*Slider*/}
-      <Slider
-        style={styles.slider}
-        maximumValue={1}
-        minimumValue={0}
-        minimumTrackTintColor="blue"
-        maximumTrackTintColor="green"
-        //thumbTintColor="blue"
-        value={slider}
-        onValueChange={handleSliderChange}
-      ></Slider>
-      <View style={styles.textContainer}>
-        <Text style={{ textAlign: "left", color: "blue", fontWeight: "bold" }}>
-          Kaum möglich
-        </Text>
-        <Text
-          style={{ textAlign: "right", color: "green", fontWeight: "bold" }}
-        >
-          Ganz einfach
-        </Text>
-      </View>
       <Pressable style={styles.buttonContainer} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continue</Text>
       </Pressable>
@@ -82,6 +58,21 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+
+  sliderLabelLeft: {
+    textAlign: "left",
+    color: "blue",
+    fontWeight: "bold",
+    width: "40%",
+  },
+
+  sliderLabelRight: {
+    textAlign: "right",
+    color: "green",
+    fontWeight: "bold",
+    width: "40%",
+  },
+
   container: {
     flex: 1,
     //alignItems: "center",
