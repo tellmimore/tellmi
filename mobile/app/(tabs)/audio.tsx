@@ -4,31 +4,66 @@ import { CheckBox } from "react-native-elements";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 import { ViewStyle, TextStyle } from "react-native";
 import Slider from "@react-native-community/slider";
+import { Audio } from "expo-av";
+import { useEffect } from "react";
 
 import React, { useState } from "react";
+import { Sound } from "expo-av/build/Audio";
 
 export default function AudioStreamingScreen() {
   // create use states for the input
-  const [value, setValue] = useState();
+  const [sound, setSound] = useState<Sound | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (sound !== null) {
+        sound.unloadAsync(); // Unload the sound when the component unmounts
+      }
+    };
+  }, [sound]);
+
+  const playSound = async () => {
+    try {
+      if (sound === null) {
+        setIsLoading(true); //Sound is loading
+        const { sound: audioSound } = await Audio.Sound.createAsync(
+          require("./happy_music.mp3")
+        );
+        setSound(audioSound);
+        console.log("Sound loaded successfully.");
+        setIsLoading(false); // Set loading state to false after audio is loaded
+      }
+
+      if (!isPlaying) {
+        await sound?.playAsync();
+        setIsPlaying(true);
+        console.log("Sound is now playing.");
+      } else {
+        await sound?.pauseAsync();
+        setIsPlaying(false);
+        console.log("Sound is paused.");
+      }
+    } catch (error) {
+      console.log("Error playing sound: ", error);
+      setIsLoading(false); // Make sure to set loading state to false in case of error
+    }
+  };
 
   // TODO: Handle user input for continue button
   const handleContinue = () => {
-    console.log("Slider value: " + value);
+    console.log("Audio played: " + sound);
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Schätzen Sie: Wie schwierig oder leicht wäre es gerade Ihren Partner zu
-        erreichen?
-      </Text>
-      <Text style={styles.text2}>
-        D.h. mit Ihrem Partern in wechselseitigen Kontakt zu treten, also auch
-        eine Antwort zu bekommen? (z.B. per Telefon, SMS, Messenger)
-      </Text>
-      <Text style={styles.text2}>
-        Kaum möglich wäre es auch, wenn es mit vielen negativen Konsequenzen für
-        Sie oder Ihren Partner verbunden ist, oder sehr lange dauern würde.
-      </Text>
+      <Text style={styles.title}>Hören Sie sich diese Audio Datei an:</Text>
+
+      <Pressable style={styles.playButton} onPress={playSound}>
+        <Text style={styles.playButtonText}>
+          {isPlaying ? "Pause" : "Play"}
+        </Text>
+      </Pressable>
 
       <Pressable style={styles.buttonContainer} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continue</Text>
@@ -49,6 +84,25 @@ const styles = StyleSheet.create({
     height: 70,
     marginLeft: 15,
     marginRight: 15,
+  },
+
+  playButton: {
+    width: 100,
+    color: "blue",
+    alignItems: "center",
+    alignSelf: "center",
+  },
+
+  playButtonText: {
+    borderRadius: 8,
+    marginTop: 10,
+    fontSize: 20,
+    padding: 10,
+    width: "80%",
+    textAlign: "center",
+    backgroundColor: "blue",
+    color: "#fff",
+    overflow: "hidden",
   },
 
   textContainer: {

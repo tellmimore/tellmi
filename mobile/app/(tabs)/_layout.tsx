@@ -58,7 +58,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="checkbox_force"
+        name="checkboxForce"
         options={{
           title: "Hobbies",
           tabBarIcon: ({ color }) => <TabBarIcon name="camera" color={color} />,
