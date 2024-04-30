@@ -1,17 +1,46 @@
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 
-import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
+import { Pressable, StyleSheet, TextInput } from "react-native";
 import { Link } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 export default function AgeInputScreen() {
   // set state Variable for age
   const [age, setAge] = useState("");
+  const { getItem, setItem } = useAsyncStorage("age");
+
+  useEffect(() => {
+    // age value vom AsyncStorag lokal auf dem Gerät laden
+    const loadAge = async () => {
+      try {
+        const storedAge = await getItem();
+        if (storedAge !== null) {
+          setAge(storedAge);
+        }
+      } catch (error) {
+        console.error("Error loading age from AsyncStorage:", error);
+      }
+    };
+
+    loadAge();
+
+    // Cleanup function
+    return () => {
+      // Any cleanup code
+    };
+  }, [getItem]); // Dependency added to useEffect to prevent unnecessary re-renders
 
   // TODO: How to handle age variable?
-  const handleContinue = () => {
-    console.log("Age:" + age);
+  const handleContinue = async () => {
+    try {
+      // Save age value to AsyncStorage
+      await setItem(age);
+    } catch (error) {
+      console.error("Error saving age to AsyncStorage:", error);
+    }
+
+    console.log("Age:", age);
   };
 
   return (
@@ -22,9 +51,9 @@ export default function AgeInputScreen() {
         placeholder="Jahre"
         keyboardType="numeric"
         value={age}
-        onChangeText={(text) => setAge(text)} // Save User Age input
+        onChangeText={setAge} // Save User Age input
       />
-      <Link href="/(tabs)/relDur" asChild>
+      <Link href="/relDur" asChild>
         <Pressable style={styles.buttonContainer} onPress={handleContinue}>
           <Text style={styles.buttonText}>Continue</Text>
         </Pressable>

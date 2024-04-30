@@ -72,6 +72,11 @@ export default function AudioStreamingScreen() {
         </Pressable>
       </Link>
 
+      <Link href="/radioButton" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
+      </Link>
       <View
         style={styles.separator}
         lightColor="#eee"
@@ -200,7 +205,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 10,
   },
 
   checkboxContainer: {

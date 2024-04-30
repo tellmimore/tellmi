@@ -57,6 +57,11 @@ export default function Video2Screen() {
           <Text style={styles.buttonText}>Continue</Text>
         </Pressable>
       </Link>
+      <Link href="/audio" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
+      </Link>
     </View>
   );
 }
@@ -130,6 +135,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 10,
   },
 });

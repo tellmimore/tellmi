@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import React, { useState } from "react";
 import {
   View,
@@ -5,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 
 interface CrosswordPuzzleItemProps {
@@ -70,6 +72,11 @@ const CrosswordPuzzle = () => {
       <TouchableOpacity onPress={() => console.log("Save", grid)}>
         <Text style={styles.saveButton}>Save</Text>
       </TouchableOpacity>
+      <Link href="/video" asChild>
+        <Pressable style={styles.buttonContainer}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
+      </Link>
     </View>
   );
 };
@@ -100,6 +107,23 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "blue",
     textDecorationLine: "underline",
+  },
+  buttonText: {
+    borderRadius: 8,
+    marginTop: 10,
+    fontSize: 20,
+    padding: 10,
+    width: "80%",
+    textAlign: "center",
+    backgroundColor: "#333",
+    color: "#fff",
+    overflow: "hidden",
+  },
+  buttonContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
   },
 });
 

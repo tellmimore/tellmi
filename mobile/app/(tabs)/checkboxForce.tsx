@@ -3,8 +3,9 @@ import { Text, View } from "@/components/Themed";
 import { CheckBox } from "react-native-elements";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "expo-router";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 export default function CheckboxScreen() {
   //TODO: Add force choice?
@@ -14,9 +15,54 @@ export default function CheckboxScreen() {
   const [musicChecked, setMusicChecked] = useState(false);
   const [photographyChecked, setPhotographyChecked] = useState(false);
   const [dancingChecked, setDancingChecked] = useState(false);
+  const { getItem, setItem } = useAsyncStorage("relDur");
+
+  useEffect(() => {
+    // age value vom AsyncStorag lokal auf dem Gerät laden
+    const loadHobbies = async () => {
+      try {
+        const storedHobbies = await getItem();
+        if (storedHobbies !== null) {
+          const {
+            footballChecked: storedFootball,
+            musicChecked: storedMusic,
+            photographyChecked: storedPhotography,
+            dancingChecked: storedDancing,
+          } = JSON.parse(storedHobbies);
+          setFootballChecked(storedFootball);
+          setMusicChecked(storedMusic);
+          setPhotographyChecked(storedPhotography);
+          setDancingChecked(storedDancing);
+        }
+      } catch (error) {
+        console.error("Error loading hobbies from AsyncStorage:", error);
+      }
+    };
+
+    loadHobbies();
+
+    // Cleanup function
+    return () => {
+      // Any cleanup code
+    };
+  }, [getItem]); // Dependency added to useEffect to prevent unnecessary re-renders
 
   // TODO: Handle user input for checkbox
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    try {
+      // Save age value to AsyncStorage
+      await setItem(
+        JSON.stringify({
+          footballChecked,
+          musicChecked,
+          photographyChecked,
+          dancingChecked,
+        })
+      );
+    } catch (error) {
+      console.error("Error saving hobbies to AsyncStorage:", error);
+    }
+
     console.log("Fußball: " + footballChecked);
     console.log("Musik: " + musicChecked);
     console.log("Fotografie: " + photographyChecked);
@@ -32,7 +78,10 @@ export default function CheckboxScreen() {
       <View style={styles.checkboxContainer}>
         <CheckBox
           checked={footballChecked}
-          onPress={() => setFootballChecked(!footballChecked)}
+          onPress={() => {
+            console.log("CheckBox pressed");
+            setFootballChecked(!footballChecked);
+          }}
         />
         <Text style={styles.text1}>Fußball</Text>
       </View>
@@ -64,6 +113,11 @@ export default function CheckboxScreen() {
       <Link href="/textinput" asChild>
         <Pressable style={styles.buttonContainer} onPress={handleContinue}>
           <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
+      </Link>
+      <Link href="/relDur" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Back</Text>
         </Pressable>
       </Link>
 
@@ -126,7 +180,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 10,
   },
 
   checkboxContainer: {

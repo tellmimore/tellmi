@@ -1,23 +1,54 @@
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-import { useNavigation } from "@react-navigation/native";
-import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
-import React from "react";
+import { Pressable, StyleSheet, TextInput } from "react-native";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "expo-router";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 export default function IndexScreen() {
   // set state variables for years and months of relationsship duration
   const [years, setYears] = useState("");
   const [months, setMonths] = useState("");
-  //const navigation = useNavigation();
+  const { getItem, setItem } = useAsyncStorage("relDur");
 
+  useEffect(() => {
+    // age value vom AsyncStorag lokal auf dem Gerät laden
+    const loadDuration = async () => {
+      try {
+        const storedDuration = await getItem();
+        if (storedDuration !== null) {
+          const { years: storedYears, months: storedMonths } =
+            JSON.parse(storedDuration);
+          setYears(storedYears);
+          setMonths(storedMonths);
+        }
+      } catch (error) {
+        console.error(
+          "Error loading relationship duration from AsyncStorage:",
+          error
+        );
+      }
+    };
+
+    loadDuration();
+
+    // Cleanup function
+    return () => {
+      // Any cleanup code
+    };
+  }, [getItem]); // Dependency added to useEffect to prevent unnecessary re-renders
   // TODO: How to handle the values?
-  const handleContinue = () => {
-    console.log("Years:" + years);
-    console.log("Months:" + months);
-
-    //navigation.navigate("AgeInput");
+  const handleContinue = async () => {
+    try {
+      // Save age value to AsyncStorage
+      await setItem(JSON.stringify({ years, months }));
+    } catch (error) {
+      console.error(
+        "Error saving relationsship duration to AsyncStorage:",
+        error
+      );
+    }
+    console.log("Years:", years, "Months: ", months);
   };
 
   return (
@@ -32,7 +63,7 @@ export default function IndexScreen() {
         placeholder="Anzahl der Jahre"
         keyboardType="numeric"
         value={years}
-        onChangeText={(text) => setYears(text)} //save User Input as new variable for years
+        onChangeText={setYears} //save User Input as new variable for years
       />
       <Text style={styles.text1}>Monate:</Text>
       <TextInput
@@ -40,11 +71,16 @@ export default function IndexScreen() {
         placeholder="Anzahl der Monate"
         keyboardType="numeric"
         value={months}
-        onChangeText={(text) => setMonths(text)} //save User Input as new variable for months
+        onChangeText={setMonths} //save User Input as new variable for months
       />
       <Link href="/checkboxForce" asChild>
         <Pressable style={styles.buttonContainer} onPress={handleContinue}>
           <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
+      </Link>
+      <Link href="/age" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Back</Text>
         </Pressable>
       </Link>
       <View
@@ -106,10 +142,21 @@ const styles = StyleSheet.create({
     color: "#fff",
     overflow: "hidden",
   },
+  backButtonText: {
+    borderRadius: 8,
+    marginTop: 10,
+    fontSize: 20,
+    padding: 10,
+    width: "80%",
+    textAlign: "center",
+    backgroundColor: "#bbb",
+    color: "#333",
+    overflow: "hidden",
+  },
   buttonContainer: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 10,
   },
 });
