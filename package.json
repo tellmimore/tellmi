@@ -23,6 +23,7 @@
   ],
   "private": true,
   "dependencies": {
+    "expo-video-player": "^2.2.0",
     "react-native-elements": "^3.4.3",
     "react-slider": "^2.0.6"
   }

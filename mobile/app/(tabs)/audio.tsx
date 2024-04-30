@@ -9,6 +9,7 @@ import { useEffect } from "react";
 
 import React, { useState } from "react";
 import { Sound } from "expo-av/build/Audio";
+import { Link } from "expo-router";
 
 export default function AudioStreamingScreen() {
   // create use states for the input
@@ -65,9 +66,11 @@ export default function AudioStreamingScreen() {
         </Text>
       </Pressable>
 
-      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </Pressable>
+      <Link href="/video copy" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Coninue</Text>
+        </Pressable>
+      </Link>
 
       <View
         style={styles.separator}

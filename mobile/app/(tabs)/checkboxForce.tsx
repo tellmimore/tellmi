@@ -4,6 +4,7 @@ import { CheckBox } from "react-native-elements";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 
 import React, { useState } from "react";
+import { Link } from "expo-router";
 
 export default function CheckboxScreen() {
   //TODO: Add force choice?
@@ -60,9 +61,11 @@ export default function CheckboxScreen() {
         <Text style={styles.text1}>Tanzen</Text>
       </View>
 
-      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </Pressable>
+      <Link href="/textinput" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Coninue</Text>
+        </Pressable>
+      </Link>
 
       <View
         style={styles.separator}

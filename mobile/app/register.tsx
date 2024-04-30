@@ -2,7 +2,7 @@ import { Text, View } from "@/components/Themed";
 import { register } from "@/utils/server";
 import { router, useNavigation } from "expo-router";
 import { useState } from "react";
-
+import { Link } from "expo-router";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 
 export default function Register() {
@@ -40,10 +40,11 @@ export default function Register() {
         onChangeText={handleCodeChange}
         value={code}
       />
-
-      <Pressable style={styles.buttonContainer} onPress={handleButtonPress}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </Pressable>
+      <Link href="/items/audio" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleButtonPress}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
+      </Link>
       <Text>{code}</Text>
     </View>
   );

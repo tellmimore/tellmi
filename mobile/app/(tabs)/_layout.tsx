@@ -48,22 +48,6 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="age"
-        options={{
-          title: "Age",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="calendar" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="checkboxForce"
-        options={{
-          title: "Hobbies",
-          tabBarIcon: ({ color }) => <TabBarIcon name="camera" color={color} />,
-        }}
-      />
     </Tabs>
   );
 }

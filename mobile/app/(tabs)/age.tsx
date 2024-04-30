@@ -2,7 +2,7 @@ import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
-
+import { Link } from "expo-router";
 import { useState } from "react";
 
 export default function AgeInputScreen() {
@@ -24,9 +24,11 @@ export default function AgeInputScreen() {
         value={age}
         onChangeText={(text) => setAge(text)} // Save User Age input
       />
-      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </Pressable>
+      <Link href="/checkboxForce" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Coninue</Text>
+        </Pressable>
+      </Link>
 
       <View
         style={styles.separator}

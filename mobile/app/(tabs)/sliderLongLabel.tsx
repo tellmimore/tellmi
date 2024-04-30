@@ -6,6 +6,7 @@ import { ViewStyle, TextStyle } from "react-native";
 import Slider from "@react-native-community/slider";
 
 import React, { useState } from "react";
+import { Link } from "expo-router";
 
 export default function SliderWithLongLabel() {
   // create use states for the hobbies
@@ -52,9 +53,11 @@ export default function SliderWithLongLabel() {
           Ganz einfach und text und text und text und text und text
         </Text>
       </View>
-      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </Pressable>
+      <Link href="/radioButton" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Coninue</Text>
+        </Pressable>
+      </Link>
 
       <View
         style={styles.separator}

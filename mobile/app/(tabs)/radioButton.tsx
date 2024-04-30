@@ -3,6 +3,7 @@ import { Pressable, StyleSheet } from "react-native";
 //import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-radio-button';
 
 import React, { useState } from "react";
+import { Link } from "expo-router";
 
 export default function RadioButtonScreen() {
   // create use states for the options
@@ -21,9 +22,11 @@ export default function RadioButtonScreen() {
 
       {/*Radio Button*/}
 
-      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </Pressable>
+      <Link href="/audio" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Coninue</Text>
+        </Pressable>
+      </Link>
 
       <View
         style={styles.separator}

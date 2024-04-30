@@ -5,6 +5,7 @@ import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 import { ViewStyle, TextStyle } from "react-native";
 
 import React, { useState } from "react";
+import { Link } from "expo-router";
 
 export default function TextInputScreen() {
   // create use states for the hobbies
@@ -32,9 +33,11 @@ export default function TextInputScreen() {
         onChangeText={(text) => setTextinput(text)} // Save User Text input
       ></TextInput>
 
-      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </Pressable>
+      <Link href="/sliderLongLabel" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Coninue</Text>
+        </Pressable>
+      </Link>
 
       <View
         style={styles.separator}

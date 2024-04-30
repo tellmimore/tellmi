@@ -4,8 +4,9 @@ import { useNavigation } from "@react-navigation/native";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 import React from "react";
 import { useState } from "react";
+import { Link } from "expo-router";
 
-export default function RelDurScreen() {
+export default function IndexScreen() {
   // set state variables for years and months of relationsship duration
   const [years, setYears] = useState("");
   const [months, setMonths] = useState("");
@@ -41,11 +42,11 @@ export default function RelDurScreen() {
         value={months}
         onChangeText={(text) => setMonths(text)} //save User Input as new variable for months
       />
-
-      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </Pressable>
-
+      <Link href="/age" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Coninue</Text>
+        </Pressable>
+      </Link>
       <View
         style={styles.separator}
         lightColor="#eee"
