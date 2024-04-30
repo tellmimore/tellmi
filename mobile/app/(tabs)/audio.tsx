@@ -54,7 +54,7 @@ export default function AudioStreamingScreen() {
 
   // TODO: Handle user input for continue button
   const handleContinue = () => {
-    console.log("Audio played: " + sound);
+    console.log("Audio played");
   };
   return (
     <View style={styles.container}>

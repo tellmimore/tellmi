@@ -1,10 +1,10 @@
 import { Text, View, StyleSheet, Dimensions, Pressable } from "react-native";
 import { Video } from "expo-av";
-import { Link } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function Video2Screen() {
+export default function VideoScreen() {
   const [mute, setMute] = useState(false);
   const [shouldPlay, setShouldPlay] = useState(true);
   const { width } = Dimensions.get("window");
@@ -16,6 +16,17 @@ export default function Video2Screen() {
   const handleVolume = () => {
     setMute((prevMute) => !prevMute);
   };
+
+  // useEffect to handle cleanup when component unmounts --> video stops playing!
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        // Stop the video and mute the sound
+        setShouldPlay(false);
+        setMute(true);
+      };
+    }, [])
+  );
 
   //TODO: no current input!
   const handleContinue = () => {
