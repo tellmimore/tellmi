@@ -1,154 +1,106 @@
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
-import { CheckBox } from "react-native-elements";
-import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
-import { ViewStyle, TextStyle } from "react-native";
-import Slider from "@react-native-community/slider";
-
 import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
-export default function MarkWordsScreen() {
-  // create use states for the input
-  const [value, setValue] = useState();
-
-  // TODO: Handle user input for continue button
-  const handleContinue = () => {
-    console.log("Slider value: " + value);
+interface CrosswordPuzzleItemProps {
+  row: number;
+  col: number;
+  value: string;
+  onChange: (row: number, col: number, text: string) => void;
+}
+const CrosswordPuzzleItem: React.FC<CrosswordPuzzleItemProps> = ({
+  row,
+  col,
+  value,
+  onChange,
+}) => {
+  const handleChange = (text: string) => {
+    onChange(row, col, text);
   };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        Schätzen Sie: Wie schwierig oder leicht wäre es gerade Ihren Partner zu
-        erreichen?
-      </Text>
-      <Text style={styles.text2}>
-        D.h. mit Ihrem Partern in wechselseitigen Kontakt zu treten, also auch
-        eine Antwort zu bekommen? (z.B. per Telefon, SMS, Messenger)
-      </Text>
-      <Text style={styles.text2}>
-        Kaum möglich wäre es auch, wenn es mit vielen negativen Konsequenzen für
-        Sie oder Ihren Partner verbunden ist, oder sehr lange dauern würde.
-      </Text>
-
-      <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-        <Text style={styles.buttonText}>Continue</Text>
-      </Pressable>
-
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
+    <View style={styles.cell}>
+      <TextInput
+        style={styles.input}
+        onChangeText={handleChange}
+        value={value}
+        maxLength={1}
+        keyboardType="default"
+        autoCapitalize="characters"
       />
     </View>
   );
-}
+};
+
+const CrosswordPuzzle = () => {
+  const initialGrid = [
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
+  ];
+  const [grid, setGrid] = useState(initialGrid);
+
+  const handleCellChange = (row: number, col: number, text: string) => {
+    const newGrid = [...grid];
+    newGrid[row][col] = text;
+    setGrid(newGrid);
+  };
+
+  return (
+    <View style={styles.container}>
+      {grid.map((row, rowIndex) => (
+        <View key={rowIndex} style={styles.row}>
+          {row.map((value, colIndex) => (
+            <CrosswordPuzzleItem
+              key={colIndex}
+              row={rowIndex}
+              col={colIndex}
+              value={value}
+              onChange={handleCellChange}
+            />
+          ))}
+        </View>
+      ))}
+      <TouchableOpacity onPress={() => console.log("Save", grid)}>
+        <Text style={styles.saveButton}>Save</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-  slider: {
-    width: 320,
-    height: 70,
-    marginLeft: 15,
-    marginRight: 15,
-  },
-
-  textContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
-    marginLeft: 10,
-    marginRight: 10,
-  },
-
-  sliderLabelLeft: {
-    textAlign: "left",
-    color: "blue",
-    fontWeight: "bold",
-    width: "40%",
-  },
-
-  sliderLabelRight: {
-    textAlign: "right",
-    color: "green",
-    fontWeight: "bold",
-    width: "40%",
-  },
-
   container: {
     flex: 1,
-    //alignItems: "center",
+    alignItems: "center",
     justifyContent: "center",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginLeft: 10,
-    marginRight: 10,
+  row: {
+    flexDirection: "row",
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  cell: {
+    width: 40,
+    height: 40,
+    borderWidth: 1,
+    borderColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  text: {
-    fontSize: 30,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  text1: {
-    fontSize: 20,
-    marginTop: 10,
-    width: "90%",
-  },
-  text2: {
-    fontSize: 14,
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-
   input: {
     fontSize: 20,
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 20,
-    width: "80%",
     textAlign: "center",
-    backgroundColor: "#efefef",
   },
-
-  textInput: {
-    fontSize: 20,
-    padding: 10,
-    borderRadius: 8,
+  saveButton: {
     marginTop: 20,
-    width: "90%",
-    height: 200,
-    textAlign: "left",
-    textAlignVertical: "top",
-    backgroundColor: "#efefef",
-  },
-
-  buttonText: {
-    borderRadius: 8,
-    marginTop: 10,
-    fontSize: 20,
-    padding: 10,
-    width: "80%",
-    textAlign: "center",
-    backgroundColor: "#333",
-    color: "#fff",
-    overflow: "hidden",
-  },
-  buttonContainer: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
-  },
-
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 0,
+    fontSize: 18,
+    color: "blue",
+    textDecorationLine: "underline",
   },
 });
+
+export default CrosswordPuzzle;

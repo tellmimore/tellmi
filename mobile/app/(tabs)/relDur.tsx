@@ -7,12 +7,43 @@ import { useState } from "react";
 import { Link } from "expo-router";
 
 export default function IndexScreen() {
+  // set state variables for years and months of relationsship duration
+  const [years, setYears] = useState("");
+  const [months, setMonths] = useState("");
+  //const navigation = useNavigation();
+
+  // TODO: How to handle the values?
+  const handleContinue = () => {
+    console.log("Years:" + years);
+    console.log("Months:" + months);
+
+    //navigation.navigate("AgeInput");
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Dies ist der Home Screen!</Text>
+      <Text style={styles.title}>
+        Wie lange sind Sie schon mit Ihrem Partner zusammen?
+      </Text>
 
-      <Link href="/age" asChild>
-        <Pressable style={styles.buttonContainer}>
+      <Text style={styles.text1}>Jahre: </Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Anzahl der Jahre"
+        keyboardType="numeric"
+        value={years}
+        onChangeText={(text) => setYears(text)} //save User Input as new variable for years
+      />
+      <Text style={styles.text1}>Monate:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Anzahl der Monate"
+        keyboardType="numeric"
+        value={months}
+        onChangeText={(text) => setMonths(text)} //save User Input as new variable for months
+      />
+      <Link href="/checkboxForce" asChild>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
           <Text style={styles.buttonText}>Continue</Text>
         </Pressable>
       </Link>

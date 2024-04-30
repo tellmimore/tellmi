@@ -24,9 +24,9 @@ export default function AgeInputScreen() {
         value={age}
         onChangeText={(text) => setAge(text)} // Save User Age input
       />
-      <Link href="/checkboxForce" asChild>
+      <Link href="/(tabs)/relDur" asChild>
         <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Coninue</Text>
+          <Text style={styles.buttonText}>Continue</Text>
         </Pressable>
       </Link>
 

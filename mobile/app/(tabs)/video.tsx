@@ -1,12 +1,5 @@
-import {
-  Text,
-  View,
-  Button,
-  StyleSheet,
-  Dimensions,
-  Pressable,
-} from "react-native";
-import { Video, ResizeMode } from "expo-av";
+import { Text, View, StyleSheet, Dimensions, Pressable } from "react-native";
+import { Video } from "expo-av";
 import { Link } from "expo-router";
 import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -26,7 +19,7 @@ export default function Video2Screen() {
 
   //TODO: no current input!
   const handleContinue = () => {
-    console.log("");
+    console.log("Video played");
   };
 
   return (
@@ -61,7 +54,7 @@ export default function Video2Screen() {
       </View>
       <Link href="/markWords" asChild>
         <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Coninue</Text>
+          <Text style={styles.buttonText}>Continue</Text>
         </Pressable>
       </Link>
     </View>

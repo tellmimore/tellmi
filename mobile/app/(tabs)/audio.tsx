@@ -68,7 +68,7 @@ export default function AudioStreamingScreen() {
 
       <Link href="/video" asChild>
         <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Coninue</Text>
+          <Text style={styles.buttonText}>Continue</Text>
         </Pressable>
       </Link>
 

@@ -55,7 +55,7 @@ export default function SliderWithLongLabel() {
       </View>
       <Link href="/radioButton" asChild>
         <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Coninue</Text>
+          <Text style={styles.buttonText}>Continue</Text>
         </Pressable>
       </Link>
 
