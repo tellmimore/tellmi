@@ -15,3 +15,16 @@ export const register = async (participationCode: string) => {
 
     return true;
 };
+
+export const postResult = async (resultData: object) => {
+    const response = await fetch(`${baseUrl}/result`, {
+        method: 'POST',
+    }).then(res => res.json());
+
+    if (resultData == undefined) {
+        console.log("Unable to post Result");
+        // save locally
+    }
+    
+    return true;
+};
