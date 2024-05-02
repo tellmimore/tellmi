@@ -1,0 +1,166 @@
+{
+    "meta": {
+        "language": "en",
+        "id": "test",
+        "title": "Test Study",
+        "description": "This is a test study",
+        "admin_name": "Alp Kaan Aksu",
+        "admin_email": "a.aksu@campus.lmu.de"
+    },
+    "items": [
+        {
+            "id": "info_item",
+            "type": "info",
+            "text": "This is an info item. It is used to display some text."
+        },
+        {
+            "id": "textarea_item",
+            "type": "textarea",
+            "text": "What is your earliest memory that you can remember?"
+        },
+        {
+            "id": "number_item",
+            "type": "number",
+            "text": "How old are you? (years)"
+        },
+        {
+            "id": "radio_item",
+            "type": "radio",
+            "text": "What is your favorite punctuation mark?",
+            "options": [
+                {
+                    "value": "comma",
+                    "text": "Comma (,)"
+                },
+                {
+                    "value": "excalamation",
+                    "text": "Exclamation mark (!)"
+                },
+                {
+                    "value": "question",
+                    "text": "Question mark (?)"
+                },
+                {
+                    "value": "period",
+                    "text": "Period (.)"
+                },
+                {
+                    "value": "semicolon",
+                    "text": "Semicolon (;)"
+                },
+                {
+                    "value": "colon",
+                    "text": "Colon (:)"
+                },
+                {
+                    "value": "dash",
+                    "text": "Dash (-)"
+                },
+                {
+                    "value": "ellipsis",
+                    "text": "Ellipsis (...)"
+                },
+                {
+                    "value": "interrobang",
+                    "text": "Interrobang (‽)"
+                }
+            ]
+        },
+        {
+            "id": "checkbox_item",
+            "type": "checkbox",
+            "text": "What are you trying to maximize in your life?",
+            "options": [
+                {
+                    "value": "happiness",
+                    "text": "Happiness"
+                },
+                {
+                    "value": "wealth",
+                    "text": "Wealth"
+                },
+                {
+                    "value": "health",
+                    "text": "Health"
+                },
+                {
+                    "value": "knowledge",
+                    "text": "Knowledge"
+                },
+                {
+                    "value": "popularity",
+                    "text": "Popularity"
+                },
+                {
+                    "value": "power",
+                    "text": "Power"
+                },
+                {
+                    "value": "love",
+                    "text": "Love"
+                }
+            ]
+        },
+        {
+            "id": "slider_item",
+            "type": "slider",
+            "text": "How satisfied are you with your life?",
+            "min": 0,
+            "max": 10,
+            "step": 1,
+            "labels": [
+                {
+                    "value": 0,
+                    "text": "Not at all"
+                },
+                {
+                    "value": 5,
+                    "text": "Neutral"
+                },
+                {
+                    "value": 10,
+                    "text": "Completely"
+                }
+            ]
+        },
+        {
+            "id": "composition_item",
+            "type": "composition",
+            "text": "How long have you been with your current partner?",
+            "composition": "{ years: block number } years\n\nand\n\n{ months: block number } months"
+        }
+    ],
+    "sets": [
+        {
+            "id": "set1",
+            "items": [
+                "info_item",
+                "textarea_item",
+                "number_item",
+                "radio_item",
+                "checkbox_item",
+                "slider_item",
+                "composition_item"
+            ]
+        }
+    ],
+    "variants": [
+        {
+            "id": "control",
+            "initial": "set1",
+            "schedule": [
+                {
+                    "day": 1,
+                    "time": "10:00",
+                    "reminder": [
+                        20,
+                        60,
+                        90
+                    ],
+                    "set": "set1",
+                    "timeout": 120
+                }
+            ]
+        }
+    ]
+}
