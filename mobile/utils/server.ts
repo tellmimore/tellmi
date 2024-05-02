@@ -1,3 +1,5 @@
+import { useStateStore } from "@/app/stateStore";
+
 const baseUrl = 'https://tellmi.onrender.com' // ?? 'http://localhost:3000';
 
 export const register = async (participationCode: string) => {
@@ -10,7 +12,11 @@ export const register = async (participationCode: string) => {
     if (response.error) {
         throw new Error(`Failed to register: ${response.error}`);
     } else {
-        console.log(response.settings.email);
+        const { setCode, setStudy, save } = useStateStore.getState();
+
+        setCode(participationCode);
+        setStudy(response);
+        save();
     }
 
     return true;
