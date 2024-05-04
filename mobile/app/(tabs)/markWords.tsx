@@ -9,79 +9,69 @@ import {
   Pressable,
 } from "react-native";
 
-interface CrosswordPuzzleItemProps {
-  row: number;
-  col: number;
-  value: string;
-  onChange: (row: number, col: number, text: string) => void;
-}
-const CrosswordPuzzleItem: React.FC<CrosswordPuzzleItemProps> = ({
-  row,
-  col,
-  value,
-  onChange,
-}) => {
-  const handleChange = (text: string) => {
-    onChange(row, col, text);
-  };
+const words = ["apple", "banana", "orange", "grape", "kiwi"];
 
-  return (
-    <View style={styles.cell}>
-      <TextInput
-        style={styles.input}
-        onChangeText={handleChange}
-        value={value}
-        maxLength={1}
-        keyboardType="default"
-        autoCapitalize="characters"
-      />
-    </View>
+export default function WordGrid({
+  words = [],
+  gridSize,
+}: {
+  words: string[];
+  gridSize: number;
+}) {
+  const grid = Array.from(Array(gridSize), () =>
+    Array.from(Array(gridSize), () => "")
   );
-};
 
-const CrosswordPuzzle = () => {
-  const initialGrid = [
-    ["", "", "", ""],
-    ["", "", "", ""],
-    ["", "", "", ""],
-    ["", "", "", ""],
-  ];
-  const [grid, setGrid] = useState(initialGrid);
+  const addWordsToGrid = () => {
+    // Place each word in the grid
+    words.forEach((word, index) => {
+      const startX = index * 2; // Start X position for each word
+      const startY = 0; // Start Y position (top of the grid)
+      // Place word horizontally
+      for (let i = 0; i < word.length; i++) {
+        const x = startX + i;
+        const y = startY;
+        if (x < gridSize && y < gridSize) {
+          grid[x][y] = word[i];
+        }
+      }
+    });
+  };
 
-  const handleCellChange = (row: number, col: number, text: string) => {
-    const newGrid = [...grid];
-    newGrid[row][col] = text;
-    setGrid(newGrid);
+  addWordsToGrid();
+
+  const handleContinue = () => {
+    console.log("Grid played");
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.gridContainer}>
       {grid.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
-          {row.map((value, colIndex) => (
-            <CrosswordPuzzleItem
-              key={colIndex}
-              row={rowIndex}
-              col={colIndex}
-              value={value}
-              onChange={handleCellChange}
-            />
+          {row.map((cell, cellIndex) => (
+            <View key={cellIndex} style={styles.cell}>
+              <Text style={styles.cellText}>{cell}</Text>
+            </View>
           ))}
         </View>
       ))}
-      <TouchableOpacity onPress={() => console.log("Save", grid)}>
-        <Text style={styles.saveButton}>Save</Text>
-      </TouchableOpacity>
+
       <Link href="/video" asChild>
-        <Pressable style={styles.buttonContainer}>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
           <Text style={styles.buttonText}>Back</Text>
         </Pressable>
       </Link>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
+  gridContainer: {
+    flexDirection: "column",
+  },
+  cellText: {
+    fontSize: 20,
+  },
   container: {
     flex: 1,
     alignItems: "center",
@@ -126,5 +116,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
-export default CrosswordPuzzle;
