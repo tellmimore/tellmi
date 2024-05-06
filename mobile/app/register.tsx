@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Link } from "expo-router";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 
+import storage from "@/utils/local/storage";
+
 export default function Register() {
   const [code, setCode] = useState<string>("");
 
@@ -20,8 +22,10 @@ export default function Register() {
     console.log("registering");
 
     register(code)
-      .then(() => {
+      .then((res) => {
         //router.replace("/(tabs)");
+        storage.saveStudyInformation({participantCode: code})
+        storage.saveStudyInformation({study: res})
       })
       .catch((error: Error) => {
         showError(error.message);
