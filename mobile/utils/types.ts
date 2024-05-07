@@ -1,9 +1,9 @@
 export interface ResultData {
     participantCode: string;
     day: number;
-    survey: string;
-    time: string;
+    survey: number;
+    time: number;
     item: string;
-    date: string;
+    date: Date;
     response: string; 
 }

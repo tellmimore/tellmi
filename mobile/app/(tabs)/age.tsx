@@ -5,6 +5,10 @@ import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
+import { ResultData } from "@/utils/types";
+import { postResult } from "@/utils/server";
+import storage from "@/utils/local/storage";
+
 export default function AgeInputScreen() {
   // set state Variable for age
   const [age, setAge] = useState("");
@@ -36,10 +40,35 @@ export default function AgeInputScreen() {
     try {
       // Save age value to AsyncStorage
       await setItem(age);
+
+      const participantCode = await storage.getValue('participantCode');
+      if (participantCode === null) {
+          console.error('No participant ID available.');
+          return;
+      }
+
+      const resultData : ResultData = {
+        participantCode: participantCode, 
+        day: 1,                 
+        survey: 1,
+        time: 1000,
+        item: 'age',  
+        date: new Date(), 
+        response: age
+    };
+
+    console.log(resultData)
+
+    // Posting the result using the postResult function
+    const postSuccess = await postResult(resultData);
+    if (postSuccess) {
+        console.log("Result posted successfully");
+    } else {
+        console.log("Result not posted: Saved locally")
+    }
     } catch (error) {
       console.error("Error saving age to AsyncStorage:", error);
     }
-
     console.log("Age:", age);
   };
 

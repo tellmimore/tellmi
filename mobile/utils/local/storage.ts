@@ -13,11 +13,24 @@ const getValue = async (key: string) => {
         return null;
     }
     try {
-        return JSON.parse(value);
+        if (typeof value === 'object')
+            return JSON.parse(value);
+        return value
     } catch (e) {
         console.error('Parsing error:', e);
         return value;
     }
+}
+
+const appendValue = async (key: string, newValue: any) => {
+    const currentValue = await getValue(key);
+    let updatedValue;
+    if (currentValue === null) {
+        updatedValue = [newValue]; 
+    } else {
+        updatedValue = [...currentValue, newValue];
+    }
+    await saveValue(key, updatedValue);
 }
 
 const saveStudyInformation = async (studyInformation: any) => {
@@ -27,7 +40,9 @@ const saveStudyInformation = async (studyInformation: any) => {
     if (studyInformation.study) {
         await saveValue('study', studyInformation.study);
     }
-
+    if (studyInformation.result) {
+        await appendValue('result', studyInformation.result);
+    }
 }
 
 export default {

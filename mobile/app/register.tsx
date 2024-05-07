@@ -24,8 +24,11 @@ export default function Register() {
     register(code)
       .then((res) => {
         //router.replace("/(tabs)");
+
+        // Start saving the Study Information in the storage
         storage.saveStudyInformation({participantCode: code})
         storage.saveStudyInformation({study: res})
+        storage.saveStudyInformation({results: []})
       })
       .catch((error: Error) => {
         showError(error.message);

@@ -1,5 +1,6 @@
 
-import { ResultData } from './types'; 
+import { ResultData } from './types';
+import storage from './local/storage';
 
 const baseUrl = 'https://tellmi.onrender.com' // ?? 'http://localhost:3000';
 
@@ -29,7 +30,7 @@ export const postResult = async (resultData: ResultData) => {
         date: resultData.date, 
         response: resultData.response,
     }
-    const response = await fetch(`${baseUrl}/result`, {
+    const response = await fetch(`${baseUrl}/results`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -39,6 +40,7 @@ export const postResult = async (resultData: ResultData) => {
 
     if (response.error) {
         console.error("Unable to post result:", response.error);
+        storage.saveStudyInformation({result: newResult})
         return false;
     }
 
