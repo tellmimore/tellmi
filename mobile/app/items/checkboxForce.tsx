@@ -4,7 +4,7 @@ import { CheckBox } from "react-native-elements";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 
 import React, { useEffect, useState } from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import * as Progress from "react-native-progress";
 
@@ -60,6 +60,7 @@ export default function CheckboxScreen() {
           dancingChecked,
         })
       );
+      router.push("/items/textinput");
     } catch (error) {
       console.error("Error saving hobbies to AsyncStorage:", error);
     }
@@ -68,6 +69,10 @@ export default function CheckboxScreen() {
     console.log("Musik: " + musicChecked);
     console.log("Fotografie: " + photographyChecked);
     console.log("Tanzen: " + dancingChecked);
+  };
+
+  const handleBack = async () => {
+    router.push("/items/relDur");
   };
   return (
     <View style={styles.container}>
@@ -113,16 +118,13 @@ export default function CheckboxScreen() {
           <Text style={styles.text1}>Tanzen</Text>
         </View>
 
-        <Link href="/items/textinput" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Continue</Text>
-          </Pressable>
-        </Link>
-        <Link href="/items/relDur" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Back</Text>
-          </Pressable>
-        </Link>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
+
+        <Pressable style={styles.buttonContainer} onPress={handleBack}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
 
         <View
           style={styles.separator}

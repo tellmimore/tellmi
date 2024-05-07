@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 import React, { useState } from "react";
 import { Sound } from "expo-av/build/Audio";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import * as Progress from "react-native-progress";
 
 export default function AudioStreamingScreen() {
@@ -51,7 +51,11 @@ export default function AudioStreamingScreen() {
 
   // TODO: Handle user input for continue button
   const handleContinue = () => {
+    router.push("/items/video");
     console.log("Audio played");
+  };
+  const handleBack = async () => {
+    router.push("/items/radioButton");
   };
   return (
     <View style={styles.container}>
@@ -65,17 +69,14 @@ export default function AudioStreamingScreen() {
           </Text>
         </Pressable>
 
-        <Link href="/items/video" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Continue</Text>
-          </Pressable>
-        </Link>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
 
-        <Link href="/items/radioButton" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Back</Text>
-          </Pressable>
-        </Link>
+        <Pressable style={styles.buttonContainer} onPress={handleBack}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
+
         <View
           style={styles.separator}
           lightColor="#eee"

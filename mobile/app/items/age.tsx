@@ -1,15 +1,17 @@
 import { Text, View } from "@/components/Themed";
 
 import { Pressable, StyleSheet, TextInput } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useEffect, useState } from "react";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import * as Progress from "react-native-progress";
+import { useRouter } from "expo-router";
 
 export default function AgeInputScreen() {
   // set state Variable for age
   const [age, setAge] = useState("");
   const { getItem, setItem } = useAsyncStorage("age");
+  const router = useRouter();
 
   useEffect(() => {
     // age value vom AsyncStorag lokal auf dem Gerät laden
@@ -37,6 +39,7 @@ export default function AgeInputScreen() {
     try {
       // Save age value to AsyncStorage
       await setItem(age);
+      router.push("/items/relDur"); // Navigate to the next screen
     } catch (error) {
       console.error("Error saving age to AsyncStorage:", error);
     }
@@ -58,11 +61,10 @@ export default function AgeInputScreen() {
           value={age}
           onChangeText={setAge} // Save User Age input
         />
-        <Link href="/items/checkboxForce" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Continue</Text>
-          </Pressable>
-        </Link>
+
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
 
         <View
           style={styles.separator}

@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, Dimensions, Pressable } from "react-native";
 import { Video } from "expo-av";
-import { Link, useFocusEffect } from "expo-router";
+import { Link, router, useFocusEffect } from "expo-router";
 import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
@@ -31,7 +31,11 @@ export default function VideoScreen() {
 
   //TODO: no current input!
   const handleContinue = () => {
+    router.push("/items/markWords");
     console.log("Video played");
+  };
+  const handleBack = async () => {
+    router.push("/items/audio");
   };
 
   return (
@@ -66,16 +70,14 @@ export default function VideoScreen() {
             />
           </View>
         </View>
-        <Link href="/items/markWords" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Continue</Text>
-          </Pressable>
-        </Link>
-        <Link href="/items/audio" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Back</Text>
-          </Pressable>
-        </Link>
+
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
+
+        <Pressable style={styles.buttonContainer} onPress={handleBack}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
       </View>
     </View>
   );

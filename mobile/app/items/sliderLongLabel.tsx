@@ -7,7 +7,7 @@ import Slider from "@react-native-community/slider";
 import * as Progress from "react-native-progress";
 
 import React, { useState } from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 export default function SliderWithLongLabel() {
   // create use states for the hobbies
@@ -18,7 +18,11 @@ export default function SliderWithLongLabel() {
   };
   // TODO: Handle user input for textinput
   const handleContinue = () => {
+    router.push("/items/radioButton");
     console.log("Slider value: " + slider);
+  };
+  const handleBack = async () => {
+    router.push("/items/textinput");
   };
   return (
     <View style={styles.container}>
@@ -57,17 +61,15 @@ export default function SliderWithLongLabel() {
             Ganz einfach und text und text und text und text und text
           </Text>
         </View>
-        <Link href="/items/radioButton" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Continue</Text>
-          </Pressable>
-        </Link>
 
-        <Link href="/items/textinput" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Back</Text>
-          </Pressable>
-        </Link>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
+
+        <Pressable style={styles.buttonContainer} onPress={handleBack}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
+
         <View
           style={styles.separator}
           lightColor="#eee"

@@ -2,7 +2,7 @@ import { Text, View } from "@/components/Themed";
 import { Pressable, StyleSheet, TextInput } from "react-native";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import * as Progress from "react-native-progress";
 
@@ -43,6 +43,7 @@ export default function RelDurScreen() {
     try {
       // Save age value to AsyncStorage
       await setItem(JSON.stringify({ years, months }));
+      router.push("/items/checkboxForce");
     } catch (error) {
       console.error(
         "Error saving relationsship duration to AsyncStorage:",
@@ -52,10 +53,14 @@ export default function RelDurScreen() {
     console.log("Years:", years, "Months: ", months);
   };
 
+  const handleBack = async () => {
+    router.push("/items/age");
+  };
+
   return (
-    <View style={styles.progressContainer}>
+    <View style={styles.container}>
       <Progress.Bar progress={0.3} width={400} style={styles.progressBar} />
-      <View style={styles.container}>
+      <View style={styles.progressContainer}>
         <Text style={styles.title}>
           Wie lange sind Sie schon mit Ihrem Partner zusammen?
         </Text>
@@ -76,16 +81,15 @@ export default function RelDurScreen() {
           value={months}
           onChangeText={(text) => setMonths(text)} //save User Input as new variable for months
         />
-        <Link href="/items/checkboxForce" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Continue</Text>
-          </Pressable>
-        </Link>
-        <Link href="/items/age" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Back</Text>
-          </Pressable>
-        </Link>
+
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
+
+        <Pressable style={styles.buttonContainer} onPress={handleBack}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
+
         <View
           style={styles.separator}
           lightColor="#eee"

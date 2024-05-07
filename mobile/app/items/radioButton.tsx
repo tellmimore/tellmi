@@ -3,7 +3,7 @@ import { Pressable, StyleSheet } from "react-native";
 //import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-radio-button';
 
 import React, { useState } from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import * as Progress from "react-native-progress";
 
 export default function RadioButtonScreen() {
@@ -16,6 +16,10 @@ export default function RadioButtonScreen() {
   // TODO: Handle user input for textinput
   const handleContinue = () => {
     console.log("Selected Option: " + selectedOption);
+    router.push("/items/audio");
+  };
+  const handleBack = async () => {
+    router.push("/items/sliderLongLabel");
   };
   return (
     <View style={styles.container}>
@@ -25,17 +29,14 @@ export default function RadioButtonScreen() {
 
         {/*Radio Button*/}
 
-        <Link href="/items/audio" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Continue</Text>
-          </Pressable>
-        </Link>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
 
-        <Link href="/items/sliderLongLabel" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Back</Text>
-          </Pressable>
-        </Link>
+        <Pressable style={styles.buttonContainer} onPress={handleBack}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
+
         <View
           style={styles.separator}
           lightColor="#eee"

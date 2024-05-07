@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -94,6 +94,9 @@ export default function WordGrid() {
     const handleContinue = () => {
       console.log("Word found:" + setFoundWords);
     };
+    const handleBack = async () => {
+      router.push("/items/video");
+    };
 
     return (
       <View style={styles.gridContainer}>
@@ -129,11 +132,9 @@ export default function WordGrid() {
           </View>
         ))}
 
-        <Link href="/items/video" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Back</Text>
-          </Pressable>
-        </Link>
+        <Pressable style={styles.buttonContainer} onPress={handleBack}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
       </View>
     );
   }

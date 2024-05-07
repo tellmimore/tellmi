@@ -6,7 +6,7 @@ import { ViewStyle, TextStyle } from "react-native";
 import * as Progress from "react-native-progress";
 
 import React, { useState } from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 export default function TextInputScreen() {
   // create use states for the hobbies
@@ -14,7 +14,11 @@ export default function TextInputScreen() {
 
   // TODO: Handle user input for textinput
   const handleContinue = () => {
+    router.push("/items/sliderLongLabel");
     console.log("Text input: " + textinput);
+  };
+  const handleBack = async () => {
+    router.push("/items/checkboxForce");
   };
   return (
     <View style={styles.container}>
@@ -36,17 +40,14 @@ export default function TextInputScreen() {
           onChangeText={(text) => setTextinput(text)} // Save User Text input
         ></TextInput>
 
-        <Link href="/items/sliderLongLabel" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Continue</Text>
-          </Pressable>
-        </Link>
+        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </Pressable>
 
-        <Link href="/items/checkboxForce" asChild>
-          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Back</Text>
-          </Pressable>
-        </Link>
+        <Pressable style={styles.buttonContainer} onPress={handleBack}>
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
+
         <View
           style={styles.separator}
           lightColor="#eee"
