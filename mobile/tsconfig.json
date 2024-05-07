@@ -12,5 +12,5 @@
     "items/**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+, "components/RadioButton.ts"  ]
 }

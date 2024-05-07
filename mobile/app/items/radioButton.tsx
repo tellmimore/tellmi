@@ -1,21 +1,21 @@
 import { Text, View } from "@/components/Themed";
 import { Pressable, StyleSheet } from "react-native";
-//import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-radio-button';
-
+import { RadioButton } from "react-native-paper";
 import React, { useState } from "react";
 import { Link, router } from "expo-router";
 import * as Progress from "react-native-progress";
 
 export default function RadioButtonScreen() {
   // create use states for the options
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedGender, setSelectedGender] = useState("other");
 
-  const handleSelect = (option: React.SetStateAction<null>) => {
-    setSelectedOption(option);
+  const handleGenderChange = (value: string) => {
+    setSelectedGender(value);
   };
+
   // TODO: Handle user input for textinput
   const handleContinue = () => {
-    console.log("Selected Option: " + selectedOption);
+    console.log("Selected Option: " + selectedGender);
     router.push("/items/audio");
   };
   const handleBack = async () => {
@@ -28,6 +28,23 @@ export default function RadioButtonScreen() {
         <Text style={styles.title}>Bitte geben Sie Ihr Geschlecht an.</Text>
 
         {/*Radio Button*/}
+        <RadioButton.Group
+          onValueChange={handleGenderChange}
+          value={selectedGender}
+        >
+          <View style={styles.radiobutton}>
+            <RadioButton value="male" />
+            <Text style={styles.text1}>Männlich</Text>
+          </View>
+          <View style={styles.radiobutton}>
+            <RadioButton value="female" />
+            <Text style={styles.text1}>Weiblich</Text>
+          </View>
+          <View style={styles.radiobutton}>
+            <RadioButton value="other" />
+            <Text style={styles.text1}>Divers</Text>
+          </View>
+        </RadioButton.Group>
 
         <Pressable style={styles.buttonContainer} onPress={handleContinue}>
           <Text style={styles.buttonText}>Continue</Text>
@@ -48,6 +65,11 @@ export default function RadioButtonScreen() {
 }
 
 const styles = StyleSheet.create({
+  radiobutton: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 15,
+  },
   progressContainer: {
     flex: 1,
     alignItems: "center",
@@ -88,8 +110,9 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 20,
-    marginTop: 10,
-    width: "90%",
+    //marginTop: 10,
+    //width: "90%",
+    textAlign: "center",
   },
   text2: {
     fontSize: 14,
