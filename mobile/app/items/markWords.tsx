@@ -1,223 +1,303 @@
-import { Link, router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import { Text, View } from "@/components/Themed";
 import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
   Pressable,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
 } from "react-native";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { Link, router } from "expo-router";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import * as Progress from "react-native-progress";
 
-const words = ["apple", "banana", "orange", "grape", "kiwi"];
+const predefinedWords = ["apple", "banana", "orange", "grape", "kiwi"];
 
 export default function WordGrid() {
-  interface Cell {
-    letter: string;
-    found: boolean;
-    wordIndex?: number; // Index of the word in the 'words' array
-  }
+  const [grid, setGrid] = useState<string[][]>([]);
+  const [foundWords, setFoundWords] = useState<string[]>([]);
+  const [highlightedCells, setHighlightedCells] = useState<number[][]>([]);
 
-  function SearchGrid({
-    words = [],
-    gridSize,
-  }: {
-    words: string[];
-    gridSize: number;
-  }) {
-    const [foundWords, setFoundWords] = useState<string[]>([]);
-    const [grid, setGrid] = useState<Cell[][]>([]);
+  useEffect(() => {
+    generateGrid();
+  }, []);
 
-    useEffect(() => {
-      // Function to generate a random letter
-      const getRandomLetter = () => {
-        const alphabet = "abcdefghijklmnopqrstuvwxyz";
-        return alphabet[Math.floor(Math.random() * alphabet.length)];
-      };
-
-      // Function to add words to the grid
-      const addWordsToGrid = () => {
-        const newGrid = Array.from(Array(gridSize), () =>
-          Array.from(Array(gridSize), () => ({ letter: "", found: false }))
-        );
-
-        let currentX = 0;
-
-        // Place each word in the grid
-        words.forEach((word, index) => {
-          // Randomly decide whether to place horizontally or vertically
-          //const isHorizontal = Math.random() < 0.5;
-
-          // Get random start position within the grid
-          if (currentX + word.length <= gridSize) {
-            // Place word in Grid
-            for (let i = 0; i < word.length; i++) {
-              newGrid[currentX][i] = {
-                letter: word[i],
-                found: false,
-                //wordIndex: index,
-              };
-            }
-            // Move the starting position for the next word
-            currentX += word.length + 1; // Add 1 for spacing between words
+  const generateGrid = () => {
+    const newGrid: string[][] = [];
+    for (let i = 0; i < 9; i++) {
+      const row: string[] = [];
+      for (let j = 0; j < 9; j++) {
+        row.push("");
+      }
+      newGrid.push(row);
+    }
+    predefinedWords.forEach((word) => {
+      let placed = false;
+      while (!placed) {
+        const rowIndex = Math.floor(Math.random() * 9);
+        const startColIndex = Math.floor(Math.random() * (9 - word.length + 1));
+        let validPlacement = true;
+        for (let i = 0; i < word.length; i++) {
+          if (newGrid[rowIndex][startColIndex + i] !== "") {
+            validPlacement = false;
+            break;
           }
-          // Fill the remaining empty cells with random letters
-          for (let i = 0; i < gridSize; i++) {
-            for (let j = 0; j < gridSize; j++) {
-              if (newGrid[i][j].letter === "") {
-                newGrid[i][j] = { letter: getRandomLetter(), found: false };
+        }
+        if (validPlacement) {
+          for (let i = 0; i < word.length; i++) {
+            newGrid[rowIndex][startColIndex + i] = word[i];
+          }
+          placed = true;
+        }
+      }
+    });
+
+    // Fill remaining cells with random letters
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        if (newGrid[i][j] === "") {
+          newGrid[i][j] = String.fromCharCode(
+            65 + Math.floor(Math.random() * 26)
+          ); // Random uppercase letter
+        }
+      }
+    }
+
+    setGrid(newGrid);
+  };
+
+  const handleCellClick = (row: number, col: number) => {
+    // Check if clicked cell forms part of any predefined word
+    const clickedCell = grid[row][col];
+    const foundWord = predefinedWords.find((word) => {
+      const startCol = col - word.indexOf(clickedCell);
+      if (startCol >= 0 && startCol + word.length <= 9) {
+        return word.split("").every((letter, index) => {
+          return grid[row]?.[startCol + index] === letter;
+        });
+      }
+      return false;
+    });
+    if (foundWord && !foundWords.includes(foundWord)) {
+      setFoundWords([...foundWords, foundWord]);
+      highlightWord(foundWord);
+    }
+  };
+
+  const highlightWord = (word: string) => {
+    // Check if the word is already found
+    if (!foundWords.includes(word)) {
+      const newHighlightedCells: number[][] = [];
+      let wordFound = false; // Flag to track if the word is found
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          if (grid[i][j] === word[0]) {
+            // Check if the word matches horizontally
+            if (j + word.length <= 9) {
+              let match = true;
+              for (let k = 1; k < word.length; k++) {
+                if (grid[i][j + k] !== word[k]) {
+                  match = false;
+                  break;
+                }
+              }
+              if (match) {
+                for (let k = 0; k < word.length; k++) {
+                  newHighlightedCells.push([i, j + k]);
+                }
+                wordFound = true; // Set the flag to true if word is found
+              }
+            }
+            // Check if the word matches vertically
+            if (i + word.length <= 9) {
+              let match = true;
+              for (let k = 1; k < word.length; k++) {
+                if (grid[i + k][j] !== word[k]) {
+                  match = false;
+                  break;
+                }
+              }
+              if (match) {
+                for (let k = 0; k < word.length; k++) {
+                  newHighlightedCells.push([i + k, j]);
+                }
+                wordFound = true;
               }
             }
           }
-        });
-
-        // Set the initialized grid
-        setGrid(newGrid);
-      };
-
-      // Initialize the grid when component mounts
-      addWordsToGrid();
-    }, []);
-
-    // Function to handle word selection
-    const handleWordSelect = (word: string) => {
-      console.log("Selected Word:", word);
-      // Check if the selected letters form any complete word
-      const foundWord = words.find((w) => w === word);
-      console.log("Found Words:", foundWord);
-      if (foundWord && !foundWords.includes(foundWord)) {
-        setFoundWords([...foundWords, foundWord]);
+        }
       }
-    };
+      if (wordFound) {
+        console.log("Word found: " + word);
+        setHighlightedCells([...highlightedCells, ...newHighlightedCells]);
+      }
+    }
+  };
 
-    const handleContinue = () => {
-      console.log("Word found:" + setFoundWords);
-    };
-    const handleBack = async () => {
-      router.push("/items/video");
-    };
+  const handleBack = async () => {
+    router.push("/items/video");
+  };
 
-    return (
-      <View style={styles.gridContainer}>
-        <Progress.Bar progress={0.95} width={400} style={styles.progressBar} />
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Progress.Bar progress={1} width={400} style={styles.progressBar} />
+      <View style={styles.progressContainer}>
         <Text style={styles.title}>
-          Finden Sie folgende Wörter in der Matrix:
+          Finden Sie folgene Wörter im Wortgitter:
         </Text>
-        {grid.map((row, rowIndex) => (
-          <View key={rowIndex} style={styles.row}>
-            {row.map((cell, cellIndex) => (
-              <TouchableOpacity
-                key={cellIndex}
-                style={[
-                  styles.cell,
-                  cell.found && styles.foundCell,
-                  cell.wordIndex !== undefined &&
-                    foundWords.includes(words[cell.wordIndex]) &&
-                    styles.foundWordCell,
-                ]}
-                onPress={() => {
-                  console.log("cell.wordIndex:", cell.wordIndex);
-                  if (cell.wordIndex !== undefined) {
-                    console.log("Selected Word:", words[cell.wordIndex]);
-                    handleWordSelect(words[cell.wordIndex]);
-                  } else {
-                    console.log("No word found at this cell.");
-                  }
-                }}
-              >
-                <Text style={styles.cellText}>{cell.letter}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        ))}
+        <Text style={styles.text1}>{predefinedWords.join(", ")}</Text>
 
+        {/*Wortgitter*/}
+        <View style={styles.grid}>
+          {grid.map((row, rowIndex) => (
+            <View key={rowIndex} style={styles.row}>
+              {row.map((cell, colIndex) => {
+                const isHighlighted = highlightedCells.some(
+                  ([r, c]) => r === rowIndex && c === colIndex
+                );
+                return (
+                  <TouchableOpacity
+                    key={colIndex}
+                    onPress={() => handleCellClick(rowIndex, colIndex)}
+                  >
+                    <View
+                      style={[
+                        styles.cell,
+                        isHighlighted && styles.highlightedCell,
+                      ]}
+                    >
+                      <Text>{cell}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.foundWords}>
+          <Text style={styles.title}>Gefundene Wörter:</Text>
+          <Text style={styles.text2}>{foundWords.join(", ")}</Text>
+          {foundWords.length === predefinedWords.length && (
+            <Text style={styles.wordsFound}>Alle Wörter gefunden!</Text>
+          )}
+        </View>
+
+        {/*Buttons*/}
         <Pressable style={styles.buttonContainer} onPress={handleBack}>
           <Text style={styles.buttonText}>Back</Text>
         </Pressable>
+
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
       </View>
-    );
-  }
-
-  const styles = StyleSheet.create({
-    foundWordCell: {
-      backgroundColor: "green",
-    },
-    foundCell: {
-      // Define foundCell style
-      backgroundColor: "yellow",
-    },
-    title: {
-      fontSize: 20,
-      fontWeight: "bold",
-      marginLeft: 10,
-      marginRight: 10,
-      marginBottom: 10,
-    },
-    gridContainer: {
-      flexDirection: "column",
-      borderWidth: 1,
-      borderColor: "black",
-      padding: 5,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    cellText: {
-      fontSize: 20,
-    },
-    progressContainer: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "flex-start",
-    },
-    progressBar: {
-      width: "100%",
-      marginBottom: 10,
-    },
-    container: {
-      flex: 1,
-      //alignItems: "center",
-      justifyContent: "center",
-    },
-    row: {
-      flexDirection: "row",
-    },
-    cell: {
-      width: 35,
-      height: 35,
-      borderWidth: 1,
-      borderColor: "black",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    input: {
-      fontSize: 20,
-      textAlign: "center",
-    },
-    saveButton: {
-      marginTop: 20,
-      fontSize: 18,
-      color: "blue",
-      textDecorationLine: "underline",
-    },
-    buttonText: {
-      borderRadius: 8,
-      marginTop: 10,
-      fontSize: 20,
-      padding: 10,
-      width: "80%",
-      textAlign: "center",
-      backgroundColor: "#333",
-      color: "#fff",
-      overflow: "hidden",
-    },
-    buttonContainer: {
-      width: "100%",
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 10,
-    },
-  });
-
-  return <SearchGrid words={words} gridSize={9} />;
+    </ScrollView>
+  );
 }
+
+const styles = StyleSheet.create({
+  wordsFound: {
+    fontSize: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: "bold",
+    color: "#00BF40",
+    marginTop: 10,
+  },
+  highlightedCell: {
+    backgroundColor: "#CCB3FF",
+  },
+  grid: {
+    flexDirection: "column",
+    marginTop: 20,
+  },
+  row: {
+    flexDirection: "row",
+  },
+  cell: {
+    width: 35,
+    height: 35,
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  foundWords: {
+    marginTop: 20,
+  },
+  foundWordsTitle: {
+    fontSize: 20,
+    marginBottom: 5,
+  },
+  progressContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  progressBar: {
+    width: "100%",
+    marginBottom: 10,
+  },
+  container: {
+    flex: 1,
+    //alignItems: "center",
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 0,
+    marginRight: 10,
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: "80%",
+  },
+  text: {
+    fontSize: 30,
+  },
+  text1: {
+    fontSize: 20,
+    marginTop: 10,
+    justifyContent: "flex-start",
+    fontStyle: "italic",
+  },
+  text2: {
+    fontSize: 20,
+    marginTop: 0,
+    justifyContent: "flex-start",
+    color: "#9966FF",
+  },
+
+  input: {
+    fontSize: 20,
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 20,
+    width: "80%",
+    textAlign: "center",
+    backgroundColor: "#efefef",
+  },
+
+  buttonText: {
+    borderRadius: 8,
+    marginTop: 10,
+    fontSize: 20,
+    padding: 10,
+    width: "80%",
+    textAlign: "center",
+    backgroundColor: "#333",
+    color: "#fff",
+    overflow: "hidden",
+  },
+  buttonContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+});

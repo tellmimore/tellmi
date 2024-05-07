@@ -11,7 +11,7 @@ export default function IndexScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Dies ist der Home Screen!</Text>
 
-      <Link href="/items/age" asChild>
+      <Link href="/items/markWords" asChild>
         <Pressable style={styles.buttonContainer}>
           <Text style={styles.buttonText}>Continue</Text>
         </Pressable>

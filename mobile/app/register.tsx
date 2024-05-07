@@ -40,7 +40,7 @@ export default function Register() {
         onChangeText={handleCodeChange}
         value={code}
       />
-      <Link href="/items/age" asChild>
+      <Link href="/items/markWords" asChild>
         <Pressable style={styles.buttonContainer} onPress={handleButtonPress}>
           <Text style={styles.buttonText}>Continue</Text>
         </Pressable>
