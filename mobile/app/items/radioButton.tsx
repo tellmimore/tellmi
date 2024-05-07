@@ -4,6 +4,7 @@ import { Pressable, StyleSheet } from "react-native";
 
 import React, { useState } from "react";
 import { Link } from "expo-router";
+import * as Progress from "react-native-progress";
 
 export default function RadioButtonScreen() {
   // create use states for the options
@@ -18,38 +19,48 @@ export default function RadioButtonScreen() {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bitte geben Sie Ihr Geschlecht an.</Text>
+      <Progress.Bar progress={0.7} width={400} style={styles.progressBar} />
+      <View style={styles.progressContainer}>
+        <Text style={styles.title}>Bitte geben Sie Ihr Geschlecht an.</Text>
 
-      {/*Radio Button*/}
+        {/*Radio Button*/}
 
-      <Link href="/audio" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continue</Text>
-        </Pressable>
-      </Link>
+        <Link href="/items/audio" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </Pressable>
+        </Link>
 
-      <Link href="/sliderLongLabel" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Back</Text>
-        </Pressable>
-      </Link>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+        <Link href="/items/sliderLongLabel" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Back</Text>
+          </Pressable>
+        </Link>
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  slider: {
-    width: 320,
-    height: 70,
-    marginLeft: 15,
-    marginRight: 15,
+  progressContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
-
+  progressBar: {
+    width: "100%",
+    marginBottom: 10,
+  },
+  container: {
+    flex: 1,
+    //alignItems: "center",
+    justifyContent: "center",
+  },
   textContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -57,11 +68,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-  container: {
-    flex: 1,
-    //alignItems: "center",
-    justifyContent: "center",
-  },
+
   title: {
     fontSize: 20,
     fontWeight: "bold",

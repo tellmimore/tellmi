@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
+import * as Progress from "react-native-progress";
 
 const words = ["apple", "banana", "orange", "grape", "kiwi"];
 
@@ -41,37 +42,35 @@ export default function WordGrid() {
           Array.from(Array(gridSize), () => ({ letter: "", found: false }))
         );
 
+        let currentX = 0;
+
         // Place each word in the grid
         words.forEach((word, index) => {
           // Randomly decide whether to place horizontally or vertically
-          const isHorizontal = Math.random() < 0.5;
+          //const isHorizontal = Math.random() < 0.5;
 
           // Get random start position within the grid
-          const startX = Math.floor(
-            Math.random() * (gridSize - (isHorizontal ? word.length : 1))
-          );
-          const startY = Math.floor(
-            Math.random() * (gridSize - (isHorizontal ? 1 : word.length))
-          );
-
-          // Place word in Grid
-          for (let i = 0; i < word.length; i++) {
-            const x = isHorizontal ? startX + i : startX;
-            const y = isHorizontal ? startY : startY + i;
-            if (x < gridSize && y < gridSize) {
-              newGrid[x][y] = { letter: word[i], found: false };
+          if (currentX + word.length <= gridSize) {
+            // Place word in Grid
+            for (let i = 0; i < word.length; i++) {
+              newGrid[currentX][i] = {
+                letter: word[i],
+                found: false,
+                //wordIndex: index,
+              };
+            }
+            // Move the starting position for the next word
+            currentX += word.length + 1; // Add 1 for spacing between words
+          }
+          // Fill the remaining empty cells with random letters
+          for (let i = 0; i < gridSize; i++) {
+            for (let j = 0; j < gridSize; j++) {
+              if (newGrid[i][j].letter === "") {
+                newGrid[i][j] = { letter: getRandomLetter(), found: false };
+              }
             }
           }
         });
-
-        // Fill the remaining empty cells with random letters
-        for (let i = 0; i < gridSize; i++) {
-          for (let j = 0; j < gridSize; j++) {
-            if (newGrid[i][j].letter === "") {
-              newGrid[i][j] = { letter: getRandomLetter(), found: false };
-            }
-          }
-        }
 
         // Set the initialized grid
         setGrid(newGrid);
@@ -83,8 +82,12 @@ export default function WordGrid() {
 
     // Function to handle word selection
     const handleWordSelect = (word: string) => {
-      if (!foundWords.includes(word)) {
-        setFoundWords([...foundWords, word]);
+      console.log("Selected Word:", word);
+      // Check if the selected letters form any complete word
+      const foundWord = words.find((w) => w === word);
+      console.log("Found Words:", foundWord);
+      if (foundWord && !foundWords.includes(foundWord)) {
+        setFoundWords([...foundWords, foundWord]);
       }
     };
 
@@ -94,6 +97,10 @@ export default function WordGrid() {
 
     return (
       <View style={styles.gridContainer}>
+        <Progress.Bar progress={0.95} width={400} style={styles.progressBar} />
+        <Text style={styles.title}>
+          Finden Sie folgende Wörter in der Matrix:
+        </Text>
         {grid.map((row, rowIndex) => (
           <View key={rowIndex} style={styles.row}>
             {row.map((cell, cellIndex) => (
@@ -106,7 +113,15 @@ export default function WordGrid() {
                     foundWords.includes(words[cell.wordIndex]) &&
                     styles.foundWordCell,
                 ]}
-                onPress={() => handleWordSelect(cell.letter)}
+                onPress={() => {
+                  console.log("cell.wordIndex:", cell.wordIndex);
+                  if (cell.wordIndex !== undefined) {
+                    console.log("Selected Word:", words[cell.wordIndex]);
+                    handleWordSelect(words[cell.wordIndex]);
+                  } else {
+                    console.log("No word found at this cell.");
+                  }
+                }}
               >
                 <Text style={styles.cellText}>{cell.letter}</Text>
               </TouchableOpacity>
@@ -114,7 +129,7 @@ export default function WordGrid() {
           </View>
         ))}
 
-        <Link href="/video" asChild>
+        <Link href="/items/video" asChild>
           <Pressable style={styles.buttonContainer} onPress={handleContinue}>
             <Text style={styles.buttonText}>Back</Text>
           </Pressable>
@@ -149,9 +164,18 @@ export default function WordGrid() {
     cellText: {
       fontSize: 20,
     },
-    container: {
+    progressContainer: {
       flex: 1,
       alignItems: "center",
+      justifyContent: "flex-start",
+    },
+    progressBar: {
+      width: "100%",
+      marginBottom: 10,
+    },
+    container: {
+      flex: 1,
+      //alignItems: "center",
       justifyContent: "center",
     },
     row: {

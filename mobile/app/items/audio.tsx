@@ -1,15 +1,12 @@
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-import { CheckBox } from "react-native-elements";
-import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
-import { ViewStyle, TextStyle } from "react-native";
-import Slider from "@react-native-community/slider";
+import { Pressable, StyleSheet } from "react-native";
 import { Audio } from "expo-av";
 import { useEffect } from "react";
 
 import React, { useState } from "react";
 import { Sound } from "expo-av/build/Audio";
 import { Link } from "expo-router";
+import * as Progress from "react-native-progress";
 
 export default function AudioStreamingScreen() {
   // create use states for the input
@@ -58,40 +55,51 @@ export default function AudioStreamingScreen() {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Hören Sie sich diese Audio Datei an:</Text>
+      <Progress.Bar progress={0.8} width={400} style={styles.progressBar} />
+      <View style={styles.progressContainer}>
+        <Text style={styles.title}>Hören Sie sich diese Audio Datei an:</Text>
 
-      <Pressable style={styles.playButton} onPress={playSound}>
-        <Text style={styles.playButtonText}>
-          {isPlaying ? "Pause" : "Play"}
-        </Text>
-      </Pressable>
-
-      <Link href="/video" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continue</Text>
+        <Pressable style={styles.playButton} onPress={playSound}>
+          <Text style={styles.playButtonText}>
+            {isPlaying ? "Pause" : "Play"}
+          </Text>
         </Pressable>
-      </Link>
 
-      <Link href="/radioButton" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Back</Text>
-        </Pressable>
-      </Link>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+        <Link href="/items/video" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </Pressable>
+        </Link>
+
+        <Link href="/items/radioButton" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Back</Text>
+          </Pressable>
+        </Link>
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  slider: {
-    width: 320,
-    height: 70,
-    marginLeft: 15,
-    marginRight: 15,
+  progressContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  progressBar: {
+    width: "100%",
+    marginBottom: 10,
+  },
+  container: {
+    flex: 1,
+    //alignItems: "center",
+    justifyContent: "center",
   },
 
   playButton: {
@@ -108,7 +116,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "80%",
     textAlign: "center",
-    backgroundColor: "blue",
+    backgroundColor: "green",
     color: "#fff",
     overflow: "hidden",
   },
@@ -135,11 +143,6 @@ const styles = StyleSheet.create({
     width: "40%",
   },
 
-  container: {
-    flex: 1,
-    //alignItems: "center",
-    justifyContent: "center",
-  },
   title: {
     fontSize: 20,
     fontWeight: "bold",

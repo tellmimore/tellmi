@@ -4,6 +4,7 @@ import { CheckBox } from "react-native-elements";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 import { ViewStyle, TextStyle } from "react-native";
 import Slider from "@react-native-community/slider";
+import * as Progress from "react-native-progress";
 
 import React, { useState } from "react";
 import { Link } from "expo-router";
@@ -21,59 +22,77 @@ export default function SliderWithLongLabel() {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Schätzen Sie: Wie schwierig oder leicht wäre es gerade Ihren Partner zu
-        erreichen?
-      </Text>
-      <Text style={styles.text2}>
-        D.h. mit Ihrem Partern in wechselseitigen Kontakt zu treten, also auch
-        eine Antwort zu bekommen? (z.B. per Telefon, SMS, Messenger)
-      </Text>
-      <Text style={styles.text2}>
-        Kaum möglich wäre es auch, wenn es mit vielen negativen Konsequenzen für
-        Sie oder Ihren Partner verbunden ist, oder sehr lange dauern würde.
-      </Text>
+      <Progress.Bar progress={0.6} width={400} style={styles.progressBar} />
+      <View style={styles.progressContainer}>
+        <Text style={styles.title}>
+          Schätzen Sie: Wie schwierig oder leicht wäre es gerade Ihren Partner
+          zu erreichen?
+        </Text>
+        <Text style={styles.text2}>
+          D.h. mit Ihrem Partern in wechselseitigen Kontakt zu treten, also auch
+          eine Antwort zu bekommen? (z.B. per Telefon, SMS, Messenger)
+        </Text>
+        <Text style={styles.text2}>
+          Kaum möglich wäre es auch, wenn es mit vielen negativen Konsequenzen
+          für Sie oder Ihren Partner verbunden ist, oder sehr lange dauern
+          würde.
+        </Text>
 
-      {/*Slider*/}
-      <Slider
-        style={styles.slider}
-        maximumValue={1}
-        minimumValue={0}
-        minimumTrackTintColor="blue"
-        maximumTrackTintColor="green"
-        //thumbTintColor="blue"
-        value={slider}
-        onValueChange={handleSliderChange}
-      ></Slider>
-      <View style={styles.textContainer}>
-        <Text style={styles.sliderLabelLeft}>
-          Kaum möglich und text und text und text und text und text
-        </Text>
-        <Text style={styles.sliderLabelRight}>
-          Ganz einfach und text und text und text und text und text
-        </Text>
+        {/*Slider*/}
+        <Slider
+          style={styles.slider}
+          maximumValue={1}
+          minimumValue={0}
+          minimumTrackTintColor="blue"
+          maximumTrackTintColor="green"
+          thumbTintColor="black"
+          value={slider}
+          onValueChange={handleSliderChange}
+        ></Slider>
+        <View style={styles.textContainer}>
+          <Text style={styles.sliderLabelLeft}>
+            Kaum möglich und text und text und text und text und text
+          </Text>
+          <Text style={styles.sliderLabelRight}>
+            Ganz einfach und text und text und text und text und text
+          </Text>
+        </View>
+        <Link href="/items/radioButton" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </Pressable>
+        </Link>
+
+        <Link href="/items/textinput" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Back</Text>
+          </Pressable>
+        </Link>
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
       </View>
-      <Link href="/radioButton" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continue</Text>
-        </Pressable>
-      </Link>
-
-      <Link href="/textinput" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Back</Text>
-        </Pressable>
-      </Link>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  progressContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  progressBar: {
+    width: "100%",
+    marginBottom: 10,
+  },
+  container: {
+    flex: 1,
+    //alignItems: "center",
+    justifyContent: "center",
+  },
   slider: {
     width: 320,
     height: 70,
@@ -103,11 +122,6 @@ const styles = StyleSheet.create({
     width: "40%",
   },
 
-  container: {
-    flex: 1,
-    //alignItems: "center",
-    justifyContent: "center",
-  },
   title: {
     fontSize: 20,
     fontWeight: "bold",

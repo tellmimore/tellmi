@@ -4,11 +4,12 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "expo-router";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import * as Progress from "react-native-progress";
 
-export default function IndexScreen() {
+export default function RelDurScreen() {
   // set state variables for years and months of relationsship duration
-  const [years, setYears] = useState("");
-  const [months, setMonths] = useState("");
+  const [years, setYears] = useState<string>("");
+  const [months, setMonths] = useState<string>("");
   const { getItem, setItem } = useAsyncStorage("relDur");
 
   useEffect(() => {
@@ -52,55 +53,69 @@ export default function IndexScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        Wie lange sind Sie schon mit Ihrem Partner zusammen?
-      </Text>
+    <View style={styles.progressContainer}>
+      <Progress.Bar progress={0.3} width={400} style={styles.progressBar} />
+      <View style={styles.container}>
+        <Text style={styles.title}>
+          Wie lange sind Sie schon mit Ihrem Partner zusammen?
+        </Text>
 
-      <Text style={styles.text1}>Jahre: </Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Anzahl der Jahre"
-        keyboardType="numeric"
-        value={years}
-        onChangeText={setYears} //save User Input as new variable for years
-      />
-      <Text style={styles.text1}>Monate:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Anzahl der Monate"
-        keyboardType="numeric"
-        value={months}
-        onChangeText={setMonths} //save User Input as new variable for months
-      />
-      <Link href="/checkboxForce" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continue</Text>
-        </Pressable>
-      </Link>
-      <Link href="/age" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Back</Text>
-        </Pressable>
-      </Link>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+        <Text style={styles.text1}>Jahre: </Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Anzahl der Jahre"
+          keyboardType="numeric"
+          value={years}
+          onChangeText={(text) => setYears(text)} //save User Input as new variable for years
+        />
+        <Text style={styles.text1}>Monate:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Anzahl der Monate"
+          keyboardType="numeric"
+          value={months}
+          onChangeText={(text) => setMonths(text)} //save User Input as new variable for months
+        />
+        <Link href="/items/checkboxForce" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </Pressable>
+        </Link>
+        <Link href="/items/age" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Back</Text>
+          </Pressable>
+        </Link>
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  progressContainer: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  progressBar: {
+    width: "100%",
+    marginBottom: 10,
+  },
+  container: {
+    flex: 1,
+    //alignItems: "center",
     justifyContent: "center",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
+    marginLeft: 20,
+    marginRight: 10,
   },
   separator: {
     marginVertical: 30,
@@ -112,20 +127,14 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 20,
-    marginTop: 20,
-  },
-  text2: {
-    fontSize: 14,
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
+    marginTop: 0,
   },
 
   input: {
     fontSize: 20,
     padding: 10,
     borderRadius: 8,
-    marginTop: 5,
+    marginTop: 20,
     width: "80%",
     textAlign: "center",
     backgroundColor: "#efefef",
@@ -142,21 +151,17 @@ const styles = StyleSheet.create({
     color: "#fff",
     overflow: "hidden",
   },
-  backButtonText: {
-    borderRadius: 8,
-    marginTop: 10,
-    fontSize: 20,
-    padding: 10,
-    width: "80%",
-    textAlign: "center",
-    backgroundColor: "#bbb",
-    color: "#333",
-    overflow: "hidden",
-  },
   buttonContainer: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
+  },
+
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+    marginRight: 20,
   },
 });

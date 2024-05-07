@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, TextInput } from "react-native";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import * as Progress from "react-native-progress";
 
 export default function AgeInputScreen() {
   // set state Variable for age
@@ -45,38 +46,54 @@ export default function AgeInputScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bitte geben Sie Ihr Alter in Jahren an:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Jahre"
-        keyboardType="numeric"
-        value={age}
-        onChangeText={setAge} // Save User Age input
-      />
-      <Link href="/relDur" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continue</Text>
-        </Pressable>
-      </Link>
+      <Progress.Bar progress={0.2} width={400} style={styles.progressBar} />
+      <View style={styles.progressContainer}>
+        <Text style={styles.title}>
+          Bitte geben Sie Ihr Alter in Jahren an:
+        </Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Jahre"
+          keyboardType="numeric"
+          value={age}
+          onChangeText={setAge} // Save User Age input
+        />
+        <Link href="/items/checkboxForce" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </Pressable>
+        </Link>
 
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  progressContainer: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
+  },
+  progressBar: {
+    width: "100%",
+    marginBottom: 10,
+  },
+  container: {
+    flex: 1,
+    //alignItems: "center",
     justifyContent: "center",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
+    marginLeft: 20,
+    marginRight: 10,
   },
   separator: {
     marginVertical: 30,
@@ -88,13 +105,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 20,
-    marginTop: 20,
-  },
-  text2: {
-    fontSize: 14,
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
+    marginTop: 0,
   },
 
   input: {
@@ -112,7 +123,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 20,
     padding: 10,
-    width: "80%",
+    width: 300,
     textAlign: "center",
     backgroundColor: "#333",
     color: "#fff",
@@ -122,6 +133,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 10,
   },
 });

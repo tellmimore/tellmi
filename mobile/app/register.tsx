@@ -21,7 +21,7 @@ export default function Register() {
 
     register(code)
       .then(() => {
-        //router.replace("/(tabs)");
+        //router.replace("/items");
       })
       .catch((error: Error) => {
         showError(error.message);
@@ -40,7 +40,7 @@ export default function Register() {
         onChangeText={handleCodeChange}
         value={code}
       />
-      <Link href="/(tabs)/age" asChild>
+      <Link href="/items/age" asChild>
         <Pressable style={styles.buttonContainer} onPress={handleButtonPress}>
           <Text style={styles.buttonText}>Continue</Text>
         </Pressable>

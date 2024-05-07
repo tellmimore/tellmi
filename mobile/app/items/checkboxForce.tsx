@@ -6,6 +6,7 @@ import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Link } from "expo-router";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import * as Progress from "react-native-progress";
 
 export default function CheckboxScreen() {
   //TODO: Add force choice?
@@ -70,71 +71,83 @@ export default function CheckboxScreen() {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Bitte geben Sie an, welche der folgenden Hobbies Sie haben:
-      </Text>
+      <Progress.Bar progress={0.4} width={400} style={styles.progressBar} />
+      <View style={styles.progressContainer}>
+        <Text style={styles.title}>
+          Bitte geben Sie an, welche der folgenden Hobbies Sie haben:
+        </Text>
 
-      {/*CheckBox*/}
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          checked={footballChecked}
-          onPress={() => {
-            console.log("CheckBox pressed");
-            setFootballChecked(!footballChecked);
-          }}
+        {/*CheckBox*/}
+        <View style={styles.checkboxContainer}>
+          <CheckBox
+            checked={footballChecked}
+            onPress={() => {
+              console.log("CheckBox pressed");
+              setFootballChecked(!footballChecked);
+            }}
+          />
+          <Text style={styles.text1}>Fußball</Text>
+        </View>
+
+        <View style={styles.checkboxContainer}>
+          <CheckBox
+            checked={musicChecked}
+            onPress={() => setMusicChecked(!musicChecked)}
+          />
+          <Text style={styles.text1}>Musik</Text>
+        </View>
+
+        <View style={styles.checkboxContainer}>
+          <CheckBox
+            checked={photographyChecked}
+            onPress={() => setPhotographyChecked(!photographyChecked)}
+          />
+          <Text style={styles.text1}>Fotografie</Text>
+        </View>
+
+        <View style={styles.checkboxContainer}>
+          <CheckBox
+            checked={dancingChecked}
+            onPress={() => setDancingChecked(!dancingChecked)}
+          />
+          <Text style={styles.text1}>Tanzen</Text>
+        </View>
+
+        <Link href="/items/textinput" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </Pressable>
+        </Link>
+        <Link href="/items/relDur" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Back</Text>
+          </Pressable>
+        </Link>
+
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
         />
-        <Text style={styles.text1}>Fußball</Text>
       </View>
-
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          checked={musicChecked}
-          onPress={() => setMusicChecked(!musicChecked)}
-        />
-        <Text style={styles.text1}>Musik</Text>
-      </View>
-
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          checked={photographyChecked}
-          onPress={() => setPhotographyChecked(!photographyChecked)}
-        />
-        <Text style={styles.text1}>Fotografie</Text>
-      </View>
-
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          checked={dancingChecked}
-          onPress={() => setDancingChecked(!dancingChecked)}
-        />
-        <Text style={styles.text1}>Tanzen</Text>
-      </View>
-
-      <Link href="/textinput" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continue</Text>
-        </Pressable>
-      </Link>
-      <Link href="/relDur" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Back</Text>
-        </Pressable>
-      </Link>
-
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  progressContainer: {
+    flex: 1,
+    //alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  progressBar: {
+    width: "100%",
+    marginBottom: 10,
+  },
   container: {
     flex: 1,
     //alignItems: "center",
-    justifyContent: "center",
+    //justifyContent: "center",
   },
   title: {
     fontSize: 20,

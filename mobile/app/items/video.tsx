@@ -3,6 +3,7 @@ import { Video } from "expo-av";
 import { Link, useFocusEffect } from "expo-router";
 import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
+import * as Progress from "react-native-progress";
 
 export default function VideoScreen() {
   const [mute, setMute] = useState(false);
@@ -35,44 +36,47 @@ export default function VideoScreen() {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.title}>
-          Bitte schauen Sie sich folgendes Video an:
-        </Text>
-        <Video
-          style={{ width, height: 300 }}
-          source={{
-            uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-          }}
-          shouldPlay={shouldPlay}
-          isMuted={mute}
-          resizeMode="cover"
-        />
-        <View style={styles.controlBar}>
-          <MaterialIcons
-            name={mute ? "volume-mute" : "volume-up"}
-            size={45}
-            color="white"
-            onPress={handleVolume}
+      <Progress.Bar progress={0.9} width={400} style={styles.progressBar} />
+      <View style={styles.progressContainer}>
+        <View>
+          <Text style={styles.title}>
+            Bitte schauen Sie sich folgendes Video an:
+          </Text>
+          <Video
+            style={{ width, height: 300 }}
+            source={{
+              uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+            }}
+            shouldPlay={shouldPlay}
+            isMuted={mute}
+            resizeMode="cover"
           />
-          <MaterialIcons
-            name={shouldPlay ? "pause" : "play-arrow"}
-            size={45}
-            color="white"
-            onPress={handlePlayAndPause}
-          />
+          <View style={styles.controlBar}>
+            <MaterialIcons
+              name={mute ? "volume-mute" : "volume-up"}
+              size={45}
+              color="white"
+              onPress={handleVolume}
+            />
+            <MaterialIcons
+              name={shouldPlay ? "pause" : "play-arrow"}
+              size={45}
+              color="white"
+              onPress={handlePlayAndPause}
+            />
+          </View>
         </View>
+        <Link href="/items/markWords" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </Pressable>
+        </Link>
+        <Link href="/items/audio" asChild>
+          <Pressable style={styles.buttonContainer} onPress={handleContinue}>
+            <Text style={styles.buttonText}>Back</Text>
+          </Pressable>
+        </Link>
       </View>
-      <Link href="/markWords" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continue</Text>
-        </Pressable>
-      </Link>
-      <Link href="/audio" asChild>
-        <Pressable style={styles.buttonContainer} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Back</Text>
-        </Pressable>
-      </Link>
     </View>
   );
 }
@@ -90,9 +94,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  container: {
+  progressContainer: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  progressBar: {
+    width: "100%",
+    marginBottom: 10,
+  },
+  container: {
+    flex: 1,
+    //alignItems: "center",
     justifyContent: "center",
   },
   title: {
