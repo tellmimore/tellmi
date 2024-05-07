@@ -1,20 +1,34 @@
 import { Text, View } from "@/components/Themed";
 import { Pressable, StyleSheet } from "react-native";
 import { RadioButton } from "react-native-paper";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, router } from "expo-router";
 import * as Progress from "react-native-progress";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 export default function RadioButtonScreen() {
   // create use states for the options
   const [selectedGender, setSelectedGender] = useState("other");
+  const { getItem, setItem } = useAsyncStorage("radioButton");
 
   const handleGenderChange = (value: string) => {
     setSelectedGender(value);
   };
 
+  useEffect(() => {
+    // Load age from AsyncStorage when the component mounts
+    const loadGender = async () => {
+      const savedGender = await getItem();
+      if (savedGender) {
+        setSelectedGender(savedGender);
+      }
+    };
+    loadGender();
+  }, []);
+
   // TODO: Handle user input for textinput
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    await setItem(selectedGender);
     console.log("Selected Option: " + selectedGender);
     router.push("/items/audio");
   };

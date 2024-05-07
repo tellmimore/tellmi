@@ -16,12 +16,38 @@ export default function CheckboxScreen() {
   const [musicChecked, setMusicChecked] = useState(false);
   const [photographyChecked, setPhotographyChecked] = useState(false);
   const [dancingChecked, setDancingChecked] = useState(false);
-  const { getItem, setItem } = useAsyncStorage("relDur");
+  const { getItem, setItem } = useAsyncStorage("checkBox");
+
+  useEffect(() => {
+    const loadHoobies = async () => {
+      const savedHobbies = await getItem();
+      if (savedHobbies) {
+        const {
+          footballChecked: savedFootball,
+          musicChecked: savedMusic,
+          photographyChecked: savedPhotography,
+          dancingChecked: savedDancing,
+        } = JSON.parse(savedHobbies);
+        setFootballChecked(savedFootball);
+        setMusicChecked(savedMusic);
+        setPhotographyChecked(savedPhotography);
+        setDancingChecked(savedDancing);
+      }
+    };
+    loadHoobies();
+  }, []);
 
   // TODO: Handle user input for checkbox
   const handleContinue = async () => {
+    await setItem(
+      JSON.stringify({
+        footballChecked,
+        musicChecked,
+        photographyChecked,
+        dancingChecked,
+      })
+    );
     router.push("/items/textinput");
-
     console.log("Fußball: " + footballChecked);
     console.log("Musik: " + musicChecked);
     console.log("Fotografie: " + photographyChecked);

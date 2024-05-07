@@ -12,10 +12,23 @@ export default function RelDurScreen() {
   const [months, setMonths] = useState<string>("");
   const { getItem, setItem } = useAsyncStorage("relDur");
 
+  useEffect(() => {
+    const loadRelDur = async () => {
+      const savedRelDur = await getItem();
+      if (savedRelDur) {
+        const { years: savedYears, months: savedMonths } =
+          JSON.parse(savedRelDur);
+        setYears(savedYears);
+        setMonths(savedMonths);
+      }
+    };
+    loadRelDur();
+  }, []);
+
   // TODO: How to handle the values?
   const handleContinue = async () => {
+    await setItem(JSON.stringify({ years, months }));
     router.push("/items/checkboxForce");
-
     console.log("Years:", years, "Months: ", months);
   };
 
@@ -104,7 +117,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
     borderRadius: 8,
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
     width: "80%",
     textAlign: "center",
     backgroundColor: "#efefef",

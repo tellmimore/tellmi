@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "80%",
     textAlign: "center",
-    backgroundColor: "green",
+    backgroundColor: "#9966FF",
     color: "#fff",
     overflow: "hidden",
   },
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
 
   sliderLabelLeft: {
     textAlign: "left",
-    color: "blue",
+    color: "#00BF40",
     fontWeight: "bold",
     width: "40%",
   },

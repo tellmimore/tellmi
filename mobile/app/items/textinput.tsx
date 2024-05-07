@@ -2,18 +2,32 @@ import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { CheckBox } from "react-native-elements";
 import { Alert, Button, Pressable, StyleSheet, TextInput } from "react-native";
-import { ViewStyle, TextStyle } from "react-native";
-import * as Progress from "react-native-progress";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, router } from "expo-router";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import * as Progress from "react-native-progress";
+import { getItem } from "expo-secure-store";
 
 export default function TextInputScreen() {
   // create use states for the hobbies
   const [textinput, setTextinput] = useState("");
+  const { getItem, setItem } = useAsyncStorage("text");
+
+  useEffect(() => {
+    // Load age from AsyncStorage when the component mounts
+    const loadText = async () => {
+      const savedText = await getItem();
+      if (savedText) {
+        setTextinput(savedText);
+      }
+    };
+    loadText();
+  }, []);
 
   // TODO: Handle user input for textinput
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    await setItem(textinput); // Save age to AsyncStorage
     router.push("/items/sliderLongLabel");
     console.log("Text input: " + textinput);
   };

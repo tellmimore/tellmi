@@ -13,10 +13,21 @@ export default function AgeInputScreen() {
   const { getItem, setItem } = useAsyncStorage("age");
   const router = useRouter();
 
+  useEffect(() => {
+    // Load age from AsyncStorage when the component mounts
+    const loadAge = async () => {
+      const savedAge = await getItem();
+      if (savedAge) {
+        setAge(savedAge);
+      }
+    };
+    loadAge();
+  }, []); // Empty dependency array ensures this effect only runs once on mount
+
   // TODO: How to handle age variable?
   const handleContinue = async () => {
+    await setItem(age); // Save age to AsyncStorage
     router.push("/items/relDur"); // Navigate to the next screen
-
     console.log("Age:", age);
   };
 

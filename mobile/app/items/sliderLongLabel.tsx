@@ -6,18 +6,33 @@ import { ViewStyle, TextStyle } from "react-native";
 import Slider from "@react-native-community/slider";
 import * as Progress from "react-native-progress";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, router } from "expo-router";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 export default function SliderWithLongLabel() {
   // create use states for the hobbies
-  const [slider, setSlider] = useState(50);
+  const [slider, setSlider] = useState(0.5);
+  const { getItem, setItem } = useAsyncStorage("slider");
 
   const handleSliderChange = (value: React.SetStateAction<number>) => {
     setSlider(value);
   };
+
+  useEffect(() => {
+    // Load age from AsyncStorage when the component mounts
+    const loadSlider = async () => {
+      const savedSlider = await getItem();
+      if (savedSlider) {
+        setSlider(parseFloat(savedSlider));
+      }
+    };
+    loadSlider();
+  }, []);
+
   // TODO: Handle user input for textinput
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    await setItem(JSON.stringify(slider)); // Save slider value to AsyncStorage
     router.push("/items/radioButton");
     console.log("Slider value: " + slider);
   };
@@ -47,9 +62,9 @@ export default function SliderWithLongLabel() {
           style={styles.slider}
           maximumValue={1}
           minimumValue={0}
-          minimumTrackTintColor="blue"
-          maximumTrackTintColor="green"
-          thumbTintColor="black"
+          minimumTrackTintColor="#9966FF"
+          maximumTrackTintColor="#00BF40"
+          thumbTintColor="#00FFFF"
           value={slider}
           onValueChange={handleSliderChange}
         ></Slider>
@@ -112,14 +127,14 @@ const styles = StyleSheet.create({
 
   sliderLabelLeft: {
     textAlign: "left",
-    color: "blue",
+    color: "#9966FF",
     fontWeight: "bold",
     width: "40%",
   },
 
   sliderLabelRight: {
     textAlign: "right",
-    color: "green",
+    color: "#00BF40",
     fontWeight: "bold",
     width: "40%",
   },
