@@ -13,36 +13,9 @@ export default function AgeInputScreen() {
   const { getItem, setItem } = useAsyncStorage("age");
   const router = useRouter();
 
-  useEffect(() => {
-    // age value vom AsyncStorag lokal auf dem Gerät laden
-    const loadAge = async () => {
-      try {
-        const storedAge = await getItem();
-        if (storedAge !== null) {
-          setAge(storedAge);
-        }
-      } catch (error) {
-        console.error("Error loading age from AsyncStorage:", error);
-      }
-    };
-
-    loadAge();
-
-    // Cleanup function
-    return () => {
-      // Any cleanup code
-    };
-  }, [getItem]); // Dependency added to useEffect to prevent unnecessary re-renders
-
   // TODO: How to handle age variable?
   const handleContinue = async () => {
-    try {
-      // Save age value to AsyncStorage
-      await setItem(age);
-      router.push("/items/relDur"); // Navigate to the next screen
-    } catch (error) {
-      console.error("Error saving age to AsyncStorage:", error);
-    }
+    router.push("/items/relDur"); // Navigate to the next screen
 
     console.log("Age:", age);
   };

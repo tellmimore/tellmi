@@ -18,52 +18,9 @@ export default function CheckboxScreen() {
   const [dancingChecked, setDancingChecked] = useState(false);
   const { getItem, setItem } = useAsyncStorage("relDur");
 
-  useEffect(() => {
-    // age value vom AsyncStorag lokal auf dem Gerät laden
-    const loadHobbies = async () => {
-      try {
-        const storedHobbies = await getItem();
-        if (storedHobbies !== null) {
-          const {
-            footballChecked: storedFootball,
-            musicChecked: storedMusic,
-            photographyChecked: storedPhotography,
-            dancingChecked: storedDancing,
-          } = JSON.parse(storedHobbies);
-          setFootballChecked(storedFootball);
-          setMusicChecked(storedMusic);
-          setPhotographyChecked(storedPhotography);
-          setDancingChecked(storedDancing);
-        }
-      } catch (error) {
-        console.error("Error loading hobbies from AsyncStorage:", error);
-      }
-    };
-
-    loadHobbies();
-
-    // Cleanup function
-    return () => {
-      // Any cleanup code
-    };
-  }, [getItem]); // Dependency added to useEffect to prevent unnecessary re-renders
-
   // TODO: Handle user input for checkbox
   const handleContinue = async () => {
-    try {
-      // Save age value to AsyncStorage
-      await setItem(
-        JSON.stringify({
-          footballChecked,
-          musicChecked,
-          photographyChecked,
-          dancingChecked,
-        })
-      );
-      router.push("/items/textinput");
-    } catch (error) {
-      console.error("Error saving hobbies to AsyncStorage:", error);
-    }
+    router.push("/items/textinput");
 
     console.log("Fußball: " + footballChecked);
     console.log("Musik: " + musicChecked);

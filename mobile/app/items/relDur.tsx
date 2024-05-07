@@ -12,44 +12,10 @@ export default function RelDurScreen() {
   const [months, setMonths] = useState<string>("");
   const { getItem, setItem } = useAsyncStorage("relDur");
 
-  useEffect(() => {
-    // age value vom AsyncStorag lokal auf dem Gerät laden
-    const loadDuration = async () => {
-      try {
-        const storedDuration = await getItem();
-        if (storedDuration !== null) {
-          const { years: storedYears, months: storedMonths } =
-            JSON.parse(storedDuration);
-          setYears(storedYears);
-          setMonths(storedMonths);
-        }
-      } catch (error) {
-        console.error(
-          "Error loading relationship duration from AsyncStorage:",
-          error
-        );
-      }
-    };
-
-    loadDuration();
-
-    // Cleanup function
-    return () => {
-      // Any cleanup code
-    };
-  }, [getItem]); // Dependency added to useEffect to prevent unnecessary re-renders
   // TODO: How to handle the values?
   const handleContinue = async () => {
-    try {
-      // Save age value to AsyncStorage
-      await setItem(JSON.stringify({ years, months }));
-      router.push("/items/checkboxForce");
-    } catch (error) {
-      console.error(
-        "Error saving relationsship duration to AsyncStorage:",
-        error
-      );
-    }
+    router.push("/items/checkboxForce");
+
     console.log("Years:", years, "Months: ", months);
   };
 
